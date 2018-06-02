@@ -1,0 +1,51 @@
+.console-wrapper {
+    overflow-y: scroll;
+    margin-top: 2.5%;
+    margin: 0.5rem 0 0 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    clear: both;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: auto;
+}
+
+#console>.sent::before {
+	content: "> ";
+}
+
+#console>.line {
+    word-wrap: break-word;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    margin: 0;
+    line-height: 1.5rem;
+}
+
+#console::-webkit-scrollbar {
+    display: none;
+}
+
+#send-field {
+	margin-top: 0;
+}
+
+body {
+	overflow-y: hidden;
+}
+
+#uri-field {
+    margin: 40vh 20vh 40vh 20vh;
+}
+
+#app-entry, nav, #app-main {
+    -webkit-transition: opacity 250ms ease-in-out;
+    -moz-transition: opacity 250ms ease-in-out;
+    -ms-transition: opacity 250ms ease-in-out;
+    -o-transition: opacity 250ms ease-in-out;
+}
