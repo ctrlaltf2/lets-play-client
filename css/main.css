@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Pixelate';
+    src: url('../fonts/retro.ttf') format('truetype');
+}
+
 .console-wrapper {
     overflow-y: scroll;
     margin-top: 2.5%;
