@@ -1,6 +1,12 @@
 $('document').ready(function() {
     let screen = document.getElementById('screen');
     let ctx = screen.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.oImageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+
     screen.height *= 3;
     screen.width *= 3;
     drawSMPTEBars(screen, ctx);
@@ -43,4 +49,44 @@ function drawSMPTEBars(canvas, ctx) {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fff';
     ctx.fillText('NO SIGNAL', width / 2, height / 2);
+}
+
+var connection = new WebSocket('ws://localhost:8081');
+connection.binaryType = "arraybuffer";
+connection.onopen = function() {
+    console.log('Connection opened');
+    connection.send("8.username,4.Fork;");
+    connection.send("7.connect,4.emu1;");
+};
+connection.onmessage = function(event) {
+    // Binary message type
+    if(event.data instanceof ArrayBuffer) {
+        let bytearray = new Uint8Array(event.data);
+        var binstr = Array.prototype.map.call(bytearray, function (ch) {
+            return String.fromCharCode(ch);
+        }).join('');
+        let b64encoded = btoa(binstr);
+
+        var image = new Image();
+        image.addEventListener('load', function() {
+            var canvas = document.getElementById('screen');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
+        });
+        image.src = 'data:image/webp;base64,' + b64encoded;
+
+    } else { // Plaintext message type
+        console.log('text message: ' + event.data);
+    }
+};
+
+connection.onclose = function() {
+    console.log('Connection closed.');
+};
+
+connection.onerror = function() {
+    console.log('Connection error.');
 }
