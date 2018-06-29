@@ -7,6 +7,8 @@ $('document').ready(function() {
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
 
+    screen.height = 160;
+    screen.width = 240;
     screen.height *= 3;
     screen.width *= 3;
     drawSMPTEBars(screen, ctx);
@@ -51,7 +53,7 @@ function drawSMPTEBars(canvas, ctx) {
     ctx.fillText('NO SIGNAL', width / 2, height / 2);
 }
 
-var connection = new WebSocket('ws://localhost:8081');
+var connection = new WebSocket('ws://localhost:' + prompt("Asio sucks", "8080"));
 connection.binaryType = "arraybuffer";
 connection.onopen = function() {
     console.log('Connection opened');
@@ -76,7 +78,7 @@ connection.onmessage = function(event) {
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
         });
-        image.src = 'data:image/webp;base64,' + b64encoded;
+        image.src = 'data:image/jpeg;base64,' + b64encoded;
 
     } else { // Plaintext message type
         console.log('text message: ' + event.data);
