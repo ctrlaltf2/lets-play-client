@@ -86,14 +86,26 @@ body{
 }
 
 .nav-link{
- padding-left:1.5rem;
+ padding-left:1.5rem
 }
 
 .game-header{
  border-bottom: 1px solid #d8ddde;
- min-height:5rem;
+ height:5rem;
  background-color:#fff
 }
+
+.display-container{
+ align-self:flex-end;
+ padding:1rem
+}
+
+#screen{
+ display:block;
+ margin-left:auto;
+ margin-right:auto
+}
+
 
 .right-column{
  width:34rem
@@ -189,6 +201,11 @@ b.logo{font-weight:normal}
 h1,h2{color:#a5a2a2}
 a{color:#07a}
 a:visited{color:#941352}
-.retro-text{font-family:'Press Start 2P',sans-serif}
+.retro-text{
+ font-family:'Press Start 2P',sans-serif;
+ /* Disable font hinting if supported. If it doesn't work (usually won't), no biggie */
+ font-smooth: never;
+-webkit-font-smoothing : none
+ }
 
 

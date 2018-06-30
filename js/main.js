@@ -1,3 +1,5 @@
+var trueWidth = -1,
+    trueHeight = -1;
 $('document').ready(function() {
     let screen = document.getElementById('screen');
     let ctx = screen.getContext('2d');
@@ -8,12 +10,66 @@ $('document').ready(function() {
     ctx.msImageSmoothingEnabled = false;
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
-    screen.height = 160;
-    screen.width = 240;
-    screen.height *= 3;
-    screen.width *= 3;
-    drawSMPTEBars(screen, ctx);
+    //screen.height = 160;
+    //screen.width = 240;
+    //screen.height *= 3;
+    //screen.width *= 3;
+var connection = new WebSocket('ws://localhost:' + prompt("Asio sucks", "8080"));
+connection.binaryType = "arraybuffer";
+connection.onopen = function() {
+    console.log('Connection opened');
+    connection.send("8.username,4.Fork;");
+    connection.send("7.connect,4.emu1;");
+};
 
+connection.onmessage = function(event) {
+    // Binary message type
+    if(event.data instanceof ArrayBuffer) {
+        let bytearray = new Uint8Array(event.data);
+        var binstr = Array.prototype.map.call(bytearray, function (ch) {
+            return String.fromCharCode(ch);
+        }).join('');
+        let b64encoded = btoa(binstr);
+
+        var image = new Image();
+        image.addEventListener('load', function() {
+            var canvas = document.getElementById('screen');
+            if (canvas.getContext) {
+                if(trueWidth != image.width || trueHeight != image.height) {
+                    trueWidth = image.width;
+                    trueHeight = image.height;
+
+                    let aspectRatio = image.width / image.height;
+                    let maxCanvasHeight = Math.floor(window.getComputedStyle(document.getElementById('display')).height.slice(0, -2));
+
+                    let newWidth = aspectRatio * maxCanvasHeight;
+                    let newHeight = maxCanvasHeight;
+
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+
+                    document.getElementById('screen').style.height = newHeight + 'px !important';
+                    document.getElementById('screen').style.width = newWidth + 'px !important';
+                }
+                var ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
+        });
+        image.src = 'data:image/jpeg;base64,' + b64encoded;
+
+    } else { // Plaintext message type
+        console.log('text message: ' + event.data);
+    }
+};
+
+connection.onclose = function() {
+    console.log('Connection closed.');
+};
+
+connection.onerror = function() {
+    console.log('Connection error.');
+}
 });
 
 function drawSMPTEBars(canvas, ctx) {
@@ -55,45 +111,3 @@ function drawSMPTEBars(canvas, ctx) {
     ctx.fillText('NO SIGNAL', width / 2, height / 2);
 }
 
-var connection = new WebSocket('ws://localhost:' + prompt("Asio sucks", "8080"));
-connection.binaryType = "arraybuffer";
-connection.onopen = function() {
-    console.log('Connection opened');
-    connection.send("8.username,4.Fork;");
-    connection.send("7.connect,4.emu1;");
-    $('#screen').click(function() {
-        ws.send("4.turn;");
-    });
-};
-connection.onmessage = function(event) {
-    // Binary message type
-    if(event.data instanceof ArrayBuffer) {
-        let bytearray = new Uint8Array(event.data);
-        var binstr = Array.prototype.map.call(bytearray, function (ch) {
-            return String.fromCharCode(ch);
-        }).join('');
-        let b64encoded = btoa(binstr);
-
-        var image = new Image();
-        image.addEventListener('load', function() {
-            var canvas = document.getElementById('screen');
-            if (canvas.getContext) {
-                var ctx = canvas.getContext('2d');
-                ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            }
-        });
-        image.src = 'data:image/jpeg;base64,' + b64encoded;
-
-    } else { // Plaintext message type
-        console.log('text message: ' + event.data);
-    }
-};
-
-connection.onclose = function() {
-    console.log('Connection closed.');
-};
-
-connection.onerror = function() {
-    console.log('Connection error.');
-}
