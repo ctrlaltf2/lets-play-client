@@ -75,7 +75,7 @@ body{
  z-index:1000
 }
 
-.letsplay-container{
+.emu-view{
  height:100%;
  flex-wrap:nowrap;
  overflow:hidden;
@@ -91,7 +91,7 @@ body{
 
 /* Right column */
 .right-column{
- width:34rem;
+ width:34rem
 }
 
 .chat-header{
@@ -101,12 +101,34 @@ body{
  min-height:5rem;
  background-color:#eef0f1;
  padding-left:2rem;
- padding-right:1rem;
+ padding-right:1rem
 }
 
 .chat-content{
  border-left:1px solid #d8ddde;
- background-color:#eef0f1;
+ background-color:#eef0f1
+}
+
+#chat-list-items{
+ overflow-y:scroll;
+ padding-bottom:1rem
+}
+
+.chat-item{
+ padding:.5rem 2rem;
+ word-wrap:break-word
+}
+
+.username{
+ font-weight:bold
+}
+
+.username,.separator,.chat-text{
+ display:inline;
+}
+
+.chat-text{
+ padding-left:.5rem;
 }
 
 .chat-input{
@@ -115,10 +137,31 @@ body{
  padding-right:2rem
 }
 
+#chat-input-box{
+ appearance:none;
+-moz-appearance:none;
+-webkit-appearance:none;
+ outline:0;
+ resize:none;
+ border:1px solid #d8dcde;
+ border-radius:2px;
+ background:#fff;
+ color:#3f434a;
+ font-size:1.2rem;
+ line-height:1.5;
+-ms-overflow-style:none;
+ padding-bottom:.5rem;
+ padding-left:1rem;
+ padding-right:1rem;
+ padding-top:.5rem;
+ transition:box-shadow .12s ease-in,border .12s ease-in;
+}
+
 
 .p-relative{position:relative !important}
 .d-block{display:block !important}
 .d-flex{display:flex !important}
+.d-hidden{display:none !important}
 .flex-nowrap{flex-wrap:nowrap !important}
 .flex-column{flex-direction:column !important}
 .flex-grow-0{flex-grow:0 !important}

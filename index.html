@@ -14,8 +14,9 @@
                     <nav class="nav-container">
 
                     </nav>
-                    <div class="letsplay-container">
-                        <main class="flex flex-column flex-grow-1 height-100 width-100 overflow-hidden p-relative z-1">
+                    <div class="join-view d-hidden"></div>
+                    <div class="emu-view">
+                        <main class="d-flex flex-column flex-grow-1 height-100 width-100 overflow-hidden p-relative z-1">
                             <div>
                                 <div class="game-header flex-shrink-0 p-relative">
 
@@ -24,20 +25,45 @@
                         </main>
                         <div class="chat-column flex-shrink-0 height-100 p-relative">
                             <div class="d-block flew-grow-0 flex-shrink-0 height-100 p-relative">
-                                <div class="right-column flex flex-column flex-grow-0 flex-nowrap flex-shrink-0 height-100 overflow-hidden">
-                                    <div class="flex flex-column flex-grow-1 flex-nowrap height-100 width-100 p-relative z-1">
+                                <div class="right-column d-flex flex-column flex-grow-0 flex-nowrap flex-shrink-0 height-100 overflow-hidden">
+                                    <div class="d-flex flex-column flex-grow-1 flex-nowrap height-100 width-100 p-relative z-1">
                                         <div class="chat-header f-align-center d-flex flex-shrink-0 width-100 f-justify-content-between">
                                             <div class="room-name">
                                                 <p>Global chat | emu1</p>
                                             </div>
                                         </div>
-                                        <section class="flex flex-column flex-grow-1 flex-shrink-1 height-100 width-100 overflow-hidden">
-                                            <div class="chat-content flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
-                                                <div class="chat-list d-flex flex-column flex-grow-1 flex-nowrap overflow-hidden p-relative">
-
+                                        <section class="d-flex flex-column flex-grow-1 flex-shrink-1 height-100 width-100 overflow-hidden">
+                                            <div class="chat-content d-flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
+                                                <div class="chat-list-container d-flex flex-column flex-grow-1 flex-nowrap overflow-hidden p-relative">
+                                                    <div class="chat-list d-flex flex-column flex-grow-1 flex-nowrap overflow-hidden">
+                                                        <div id="chat-list-items" class="flex-grow-1 height-100">
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                            <div class="chat-item"><p class="username">Forkie</p><p class="separator">:</p><span class="chat-text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="chat-input">
-
+                                                    <div class="p-relative z-1">
+                                                        <div>
+                                                            <textarea id="chat-input-box" class="d-block width-100"></textarea>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </section>
