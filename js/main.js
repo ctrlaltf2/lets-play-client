@@ -6,12 +6,14 @@ $('document').ready(function() {
     ctx.oImageSmoothingEnabled = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
+    ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
     screen.height = 160;
     screen.width = 240;
     screen.height *= 3;
     screen.width *= 3;
     drawSMPTEBars(screen, ctx);
+
 });
 
 function drawSMPTEBars(canvas, ctx) {
@@ -59,6 +61,9 @@ connection.onopen = function() {
     console.log('Connection opened');
     connection.send("8.username,4.Fork;");
     connection.send("7.connect,4.emu1;");
+    $('#screen').click(function() {
+        ws.send("4.turn;");
+    });
 };
 connection.onmessage = function(event) {
     // Binary message type

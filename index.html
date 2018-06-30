@@ -4,47 +4,37 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link href="css/main.css" rel="stylesheet">
+        <link href="css/flex.css" rel="stylesheet">
     </head>
 
     <body>
-        <header>
-            <nav class="navbar navbar-dark navbar-expand-md retro-text" style="background-color: #171717;">
-                <a class="navbar-brand" href="#">Let's <b class="logo green">P</b><b class="logo blue">l</b><b class="logo red">a</b><b class="logo yellow">y</b></a>
-                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse" id="navbar">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="https://github.com/ctrlaltf2/lets-play-server">Source</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        <div id="root">
+            <div id="app-container">
+                <div id="app">
+                    <nav class="nav-container">
 
-        <main>
-            <div class="container">
-                <div class="row" style="margin-top:1rem;">
-                    <div class="col-2"></div>
-                    <div class="col">
-                        <canvas id="screen">
-                        </canvas>
+                    </nav>
+                    <div class="letsplay-container">
+                        <main class="flex flex-column flex-grow-1 height-100 width-100 overflow-hidden p-relative z-1">
+                        </main>
+                        <div class="chat-column flex-shrink-0 height-100 p-relative">
+                            <div class="d-block flew-grow-0 flex-shrink-0 height-100 p-relative">
+                                <div class="right-column flex flex-column flex-grow-0 flex-nowrap flex-shrink-0 height-100 overflow-hidden">
+                                    <div class="flex flex-column flex-grow-1 flex-nowrap height-100 width-100 p-relative z-1">
+                                        <section class="flex flex-column flex-grow-1 flex-shrink-1 height-100 width-100 overflow-hidden">
+                                            <div class="chat-content flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
+
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-2"></div>
                 </div>
             </div>
-        </main>
-
+        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
-
-
-
-
