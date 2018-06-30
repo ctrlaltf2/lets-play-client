@@ -69,18 +69,24 @@ body{
  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75);
  -moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75)
  -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75);
+ align-items:center;
  background-color:#353434;
- flex-shrink:0;
- position:relative;
+ justify-content:flex-start;
+ padding-left:.75rem;
  z-index:1000
 }
 
-.emu-view{
- height:100%;
- flex-wrap:nowrap;
- overflow:hidden;
- display:flex;
- position:relative
+.nav-logo,.nav-link{
+ color:#a5a2a2!important;
+ text-decoration:none!important
+}
+
+.nav-logo,.logo{
+ font-size:1.75rem!important
+}
+
+.nav-link{
+ padding-left:1.5rem;
 }
 
 .game-header{
@@ -89,7 +95,6 @@ body{
  background-color:#fff
 }
 
-/* Right column */
 .right-column{
  width:34rem
 }
@@ -164,6 +169,7 @@ body{
 .d-hidden{display:none !important}
 .flex-nowrap{flex-wrap:nowrap !important}
 .flex-column{flex-direction:column !important}
+.flex-row{flex-direction:row !important}
 .flex-grow-0{flex-grow:0 !important}
 .flex-grow-1{flex-grow:1 !important}
 .flex-shrink-0{flex-shrink:0 !important}
@@ -175,9 +181,14 @@ body{
 .width-100{width:100% !important}
 .z-1{z-index:1 !important}
 
-
-.retro-text{
-    font-family:'Press Start 2P',sans-serif
-}
+b.logo{font-weight:normal}
+.logo.green{color:#079330}
+.logo.blue{color:#021daa}
+.logo.red{color:#fe2015}
+.logo.yellow{color:#ffc001}
+h1,h2{color:#a5a2a2}
+a{color:#07a}
+a:visited{color:#941352}
+.retro-text{font-family:'Press Start 2P',sans-serif}
 
 
