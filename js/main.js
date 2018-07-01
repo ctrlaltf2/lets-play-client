@@ -1,23 +1,82 @@
 var trueWidth = -1,
     trueHeight = -1;
 
-
 // Object for storing callbacks (exposed to allow for userscripts to extend functionality)
 var app = {
     input: {
+        gamepad: {
+            connected: false,
+            layout: {},
+            onconnect: function(evt) {
+                if(evt.gamepad.mapping == 'standard' && (evt.gamepad.index === 0)) {
+                    app.input.gamepad.layout = gamepadMaps['standard'];
+                    app.input.gamepad.connected = true;
+                    app.input.gamepad.pollInput();
+                }
+            },
+            ondisconnect: function(evt) {
+                if(evt.gamepad.index === 0) {
+                    app.input.gamepad.connected = false;
+                    app.input.gamepad.buttonstate = [];
+                    cancelAnimationFrame(app.input.gamepad.pollInputID);
+                }
+            },
+            buttonstate: [],
+            axesstate: [],
+            pollInputID: undefined,
+            pollInput: function() {
+                if(app.input.gamepad.connected === true) {
+                    let gamepad = navigator.getGamepads()[0];
+                    if(app.input.gamepad.lastPolledTimestamp != gamepad.timestamp) {
+                        app.input.gamepad.lastPolledTimestamp = gamepad.timestamp;
+                    } else {
+                app.input.gamepad.pollInputID = requestAnimationFrame(app.input.gamepad.pollInput);
+                        return;
+                    }
+
+                    let layout = app.input.gamepad.layout;
+                    if(layout) {
+                        for(let i = 0; i < layout.buttons.length;++i) {
+                            if(app.input.gamepad.buttonstate[i] == undefined) {
+                                app.input.gamepad.buttonstate[i] = gamepad.buttons[i].pressed;
+                                continue;
+                            }
+
+                            if(gamepad.buttons[i].pressed != app.input.gamepad.buttonstate[i]) {
+                                if(gamepad.buttons[i].pressed) { // down
+                                    let message = encodeCommand(["button", "down", layout.buttons[i] + '']);
+                                    if(connection.readyState == connection.OPEN)
+                                        connection.send(message);
+                                } else { // up
+                                    let message = encodeCommand(["button", "up", layout.buttons[i] + '']);
+                                    if(connection.readyState == connection.OPEN)
+                                        connection.send(message);
+                                }
+                            }
+
+                            app.input.gamepad.buttonstate[i] = gamepad.buttons[i].pressed;
+                        }
+                    } else {
+                        console.log("layout not setup");
+                    }
+                }
+                app.input.gamepad.pollInputID = requestAnimationFrame(app.input.gamepad.pollInput);
+            },
+            lastPolledTimestamp: 0
+        },
         keyToRetroID: {
-            'x': 0, // x -> RETRO_DEVICE_ID_JOYPAD_B
-            'c': 8, // c -> RETRO_DEVICE_ID_JOYPAD_A
-            's': 9, // s -> RETRO_DEVICE_ID_JOYPAD_X
-            'a': 1, // a -> RETRO_DEVICE_ID_JOYPAD_Y
-            'ArrowUp': 4, // arrow up -> RETRO_DEVICE_ID_JOYPAD_UP
-            'ArrowDown': 5, // arrow down -> RETRO_DEVICE_ID_JOYPAD_DOWN
-            'ArrowLeft': 6, // arrow left -> RETRO_DEVICE_ID_JOYPAD_LEFT
-            'ArrowRight': 7, // arrow right -> RETRO_DEVICE_ID_JOYPAD_RIGHT
-            'Tab':  2, // tab -> RETRO_DEVICE_ID_JOYPAD_SELECT
-            'Space': 3, // space -> RETRO_DEVICE_ID_JOYPAD_START
-            'q': 10, // q -> RETRO_DEVICE_ID_JOYPAD_L
-            'e': 11 // e -> RETRO_DEVICE_ID_JOYPAD_R
+            'x':            RetroJoypad['B'],
+            'c':            RetroJoypad['A'],
+            's':            RetroJoypad['X'],
+            'a':            RetroJoypad['Y'],
+            'ArrowUp':      RetroJoypad['Up'],
+            'ArrowDown':    RetroJoypad['Down'],
+            'ArrowLeft':    RetroJoypad['Left'],
+            'ArrowRight':   RetroJoypad['Right'],
+            'Tab':          RetroJoypad['Select'],
+            'Enter':        RetroJoypad['Start'],
+            'q':            RetroJoypad['L'],
+            'e':            RetroJoypad['R']
         }
     },
     chat: {
@@ -187,6 +246,9 @@ $('document').ready(function() {
             connection.send(encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
         }
     }
+
+    window.addEventListener("gamepadconnected", app.input.gamepad.onconnect);
+    window.addEventListener("gamepaddisconnected", app.input.gamepad.ondisconnect);
 });
 
 function drawSMPTEBars(canvas, ctx) {

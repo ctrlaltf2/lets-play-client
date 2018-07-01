@@ -169,9 +169,10 @@ button{
  text-align: inherit;
 }
 
-#settings-btn{
+#settings-btn,#list-btn{
  cursor:pointer;
  padding-top:.5rem;
+ padding-right:.5rem;
 }
 
 #chat-input-box{
