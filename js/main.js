@@ -123,12 +123,14 @@ $('document').ready(function() {
     ctx.msImageSmoothingEnabled = false;
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
-    connection = new WebSocket('ws://localhost:' + prompt("Asio sucks", "8080"));
+    connection = new WebSocket('ws://localhost:' + prompt("Enter port", "8080"));
     connection.binaryType = "arraybuffer";
     connection.onopen = function() {
         console.log('Connection opened');
-        connection.send("8.username,4.Fork;");
-        connection.send("7.connect,4.emu1;");
+        let username = 'guest' + Math.floor(Math.random(0, 9999) * 9999);
+        let message = encodeCommand(["username", username]);
+        connection.send(message);
+        connection.send("7.connect,4.emu1;");;
     };
 
     connection.onmessage = function(event) {
@@ -173,14 +175,14 @@ $('document').ready(function() {
     }
 
     document.getElementById('screen').onkeydown = function(e) {
-        if(app.input.keyToRetroID[e.key] && !e.repeat) {
+        if(!(app.input.keyToRetroID[e.key] === undefined) && !e.repeat) {
             e.preventDefault();
             connection.send(encodeCommand(["button", "down", app.input.keyToRetroID[e.key] + '']));
         }
     }
 
     document.getElementById('screen').onkeyup = function(e) {
-        if(app.input.keyToRetroID[e.key] && !e.repeat) {
+        if(!(app.input.keyToRetroID[e.key] === undefined) && !e.repeat) {
             e.preventDefault();
             connection.send(encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
         }
