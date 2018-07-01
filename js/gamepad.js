@@ -45,9 +45,31 @@ var gamepadMaps = {
             new Axes(RetroJoypad['Up'], RetroJoypad['Down'])
         ]
     },
-    /*'Performance Designed Products Afterglow Gamepad for Xbox 360 (Vendor: 0e6f Product: 0213)': {
-
-    },*/
+    'Performance Designed Products Afterglow Gamepad for Xbox 360 (Vendor: 0e6f Product: 0213)': {
+        buttons: [
+            RetroJoypad['B'],
+            RetroJoypad['A'],
+            RetroJoypad['Y'],
+            RetroJoypad['X'],
+            RetroJoypad['L'],
+            RetroJoypad['R'],
+            RetroJoypad['Select'],
+            RetroJoypad['Start'],
+            undefined, // TODO: Use this button (home button) for taking a turn)
+            RetroJoypad['L3'],
+            RetroJoypad['R3']
+        ],
+        axes: [
+            new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
+            new Axes(RetroJoypad['Up'], RetroJoypad['Down']),
+            new Axes(undefined, RetroJoypad['L2']),
+            new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
+            new Axes(RetroJoypad['Up'], RetroJoypad['Down']),
+            new Axes(undefined, RetroJoypad['R2']),
+            new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
+            new Axes(RetroJoypad['Up'], RetroJoypad['Down']),
+        ]
+    },
     '(null) usb gamepad            (Vendor: 0810 Product: e501)': { // Some sketchy usb snes controller (pretty sure its https://www.amazon.com/Nintendo-Controller-iNNEXT-Classic-Raspberry/dp/B01MZZXLGH/)
         buttons: [
             RetroJoypad['X'],
