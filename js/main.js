@@ -8,10 +8,21 @@ var app = {
             connected: false,
             layout: {},
             onconnect: function(evt) {
-                if(evt.gamepad.mapping == 'standard' && (evt.gamepad.index === 0)) {
-                    app.input.gamepad.layout = gamepadMaps['standard'];
-                    app.input.gamepad.connected = true;
-                    app.input.gamepad.pollInput();
+                if(evt.gamepad.index === 0) {
+                    // Try to use standard mapping if the controller has it
+                    if(evt.gamepad.mapping == 'standard') {
+                        app.input.gamepad.layout = gamepadMaps['standard'];
+                        app.input.gamepad.connected = true;
+                        app.input.gamepad.pollInput();
+                    } else { // Try to lookup button map in known maps
+                        if(gamepadMaps[evt.gamepad.id]) {
+                            app.input.gamepad.layout = gamepadMaps[evt.gamepad.id];
+                            app.input.gamepad.connected = true;
+                            app.input.gamepad.pollInput();
+                        } else {
+                            alert("Unknown controller plugged in");
+                        }
+                    }
                 }
             },
             ondisconnect: function(evt) {
@@ -30,7 +41,7 @@ var app = {
                     if(app.input.gamepad.lastPolledTimestamp != gamepad.timestamp) {
                         app.input.gamepad.lastPolledTimestamp = gamepad.timestamp;
                     } else {
-                app.input.gamepad.pollInputID = requestAnimationFrame(app.input.gamepad.pollInput);
+                        app.input.gamepad.pollInputID = requestAnimationFrame(app.input.gamepad.pollInput);
                         return;
                     }
 
@@ -38,23 +49,57 @@ var app = {
                     if(layout) {
                         for(let i = 0; i < layout.buttons.length;++i) {
                             if(app.input.gamepad.buttonstate[i] == undefined) {
-                                app.input.gamepad.buttonstate[i] = gamepad.buttons[i].pressed;
-                                continue;
+                                app.input.gamepad.buttonstate[i] = false;
                             }
 
                             if(gamepad.buttons[i].pressed != app.input.gamepad.buttonstate[i]) {
                                 if(gamepad.buttons[i].pressed) { // down
-                                    let message = encodeCommand(["button", "down", layout.buttons[i] + '']);
                                     if(connection.readyState == connection.OPEN)
-                                        connection.send(message);
+                                        connection.send(encodeCommand(["button", "down", layout.buttons[i] + '']));
                                 } else { // up
-                                    let message = encodeCommand(["button", "up", layout.buttons[i] + '']);
                                     if(connection.readyState == connection.OPEN)
-                                        connection.send(message);
+                                        connection.send(encodeCommand(["button", "up", layout.buttons[i] + '']));
                                 }
                             }
 
                             app.input.gamepad.buttonstate[i] = gamepad.buttons[i].pressed;
+                        }
+
+                        // Until the backend supports analog, convert any analog axes values to digital
+                        for(let i = 0; i < layout.axes.length;++i) {
+                            let value;
+                            // Round to -1 or 1 respecting the threshold
+                            if(Math.abs(gamepad.axes[i]) > joystickThreshold) {
+                                if(gamepad.axes[i] < 0)
+                                    value = -1;
+                                else
+                                    value = 1;
+                            } else {
+                                value = 0;
+                            }
+
+                            // If first time this function has run through, default state
+                            if(app.input.gamepad.axesstate[i] == undefined) {
+                                app.input.gamepad.axesstate[i] = 0;
+                            }
+
+                            let previousValue = app.input.gamepad.axesstate[i];
+                            if(previousValue != value) {
+                                if(previousValue == 0) { // Rest -> something
+                                    if(connection.readyState == connection.OPEN)
+                                        connection.send(encodeCommand(["button", "down", layout.axes[i].getRetroID(value) + '']));
+                                } else if (value == 0) { // Something -> Rest
+                                    if(connection.readyState == connection.OPEN)
+                                        connection.send(encodeCommand(["button", "up", layout.axes[i].getRetroID(previousValue) + '']));
+                                } else { // Something -> something
+                                    if(connection.readyState == connection.OPEN) {
+                                        connection.send(encodeCommand(["button", "up", layout.axes[i].getRetroID(previousValue) + '']));
+                                        connection.send(encodeCommand(["button", "down", layout.axes[i].getRetroID(value) + '']));
+                                    }
+                                }
+                            }
+
+                            app.input.gamepad.axesstate[i] = value;
                         }
                     } else {
                         console.log("layout not setup");

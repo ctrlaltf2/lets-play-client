@@ -38,9 +38,30 @@ var gamepadMaps = {
             RetroJoypad['Left'],
             RetroJoypad['Right'],
         ],
-        axes: [ // Fix once analog implemented in backend
+        axes: [ // Update once analog implemented in backend
             new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
             new Axes(RetroJoypad['Up'], RetroJoypad['Down']),
+            new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
+            new Axes(RetroJoypad['Up'], RetroJoypad['Down'])
+        ]
+    },
+    /*'Performance Designed Products Afterglow Gamepad for Xbox 360 (Vendor: 0e6f Product: 0213)': {
+
+    },*/
+    '(null) usb gamepad            (Vendor: 0810 Product: e501)': { // Some sketchy usb snes controller (pretty sure its https://www.amazon.com/Nintendo-Controller-iNNEXT-Classic-Raspberry/dp/B01MZZXLGH/)
+        buttons: [
+            RetroJoypad['X'],
+            RetroJoypad['A'],
+            RetroJoypad['B'],
+            RetroJoypad['Y'],
+            RetroJoypad['L'],
+            undefined,
+            RetroJoypad['R'],
+            undefined,
+            RetroJoypad['Select'],
+            RetroJoypad['Start']
+        ],
+        axes: [
             new Axes(RetroJoypad['Left'], RetroJoypad['Right']),
             new Axes(RetroJoypad['Up'], RetroJoypad['Down'])
         ]
@@ -48,21 +69,22 @@ var gamepadMaps = {
 }
 
 function Axes(negativeValue, positiveValue) {
-    this.IDifNegative = negativeValue;
-    this.IDifPositive = positiveValue;
+    return {
+        IDifNegative: negativeValue,
+        IDifPositive: positiveValue,
+        getRetroID: function(value) {
+            if(value < -1 || value > 1) {
+                return undefined;
+            }
 
-    this.getRetroID = function(value) {
-        if(value < -1 || value > 1) {
-            return undefined;
+            if(Math.abs(value) < joystickThreshold) {
+                return undefined;
+            }
+
+            if(value < 0)
+                return this.IDifNegative;
+            else
+                return this.IDifPositive;
         }
-
-        if(Math.abs(value) < joystickThreshold) {
-            return undefined;
-        }
-
-        if(value < 0)
-            return this.IDifNegative;
-        else
-            return this.IDifPositive;
-    }
+    };
 }
