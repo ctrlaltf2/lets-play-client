@@ -4,6 +4,22 @@ var trueWidth = -1,
 
 // Object for storing callbacks (exposed to allow for userscripts to extend functionality)
 var app = {
+    input: {
+        keyToRetroID: {
+            'x': 0, // x -> RETRO_DEVICE_ID_JOYPAD_B
+            'c': 8, // c -> RETRO_DEVICE_ID_JOYPAD_A
+            's': 9, // s -> RETRO_DEVICE_ID_JOYPAD_X
+            'a': 1, // a -> RETRO_DEVICE_ID_JOYPAD_Y
+            'ArrowUp': 4, // arrow up -> RETRO_DEVICE_ID_JOYPAD_UP
+            'ArrowDown': 5, // arrow down -> RETRO_DEVICE_ID_JOYPAD_DOWN
+            'ArrowLeft': 6, // arrow left -> RETRO_DEVICE_ID_JOYPAD_LEFT
+            'ArrowRight': 7, // arrow right -> RETRO_DEVICE_ID_JOYPAD_RIGHT
+            'Tab':  2, // tab -> RETRO_DEVICE_ID_JOYPAD_SELECT
+            'Space': 3, // space -> RETRO_DEVICE_ID_JOYPAD_START
+            'q': 10, // q -> RETRO_DEVICE_ID_JOYPAD_L
+            'e': 11 // e -> RETRO_DEVICE_ID_JOYPAD_R
+        }
+    },
     chat: {
         log: function(who, message) {
             let chat_list = document.getElementById('chat-list-items');
@@ -156,6 +172,26 @@ $('document').ready(function() {
             let message = document.getElementById('chat-input-box').value.slice(0, -1);
             connection.send("4.chat," + message.length + '.' + message + ';');
             document.getElementById('chat-input-box').value = "";
+        }
+    }
+
+    document.getElementById('screen').onkeydown = function(e) {
+        app.chat.log("[Debug]", "keydown");
+        if(app.input.keyToRetroID[e.key] && !e.repeat) {
+        app.chat.log("[Debug]", "valid keydown");
+            e.preventDefault();
+            app.chat.log("[Debug]", encodeCommand(["button", "down", app.input.keyToRetroID[e.key] + '']));
+            connection.send(encodeCommand(["button", "down", app.input.keyToRetroID[e.key] + '']));
+        }
+    }
+
+    document.getElementById('screen').onkeyup = function(e) {
+        app.chat.log("[Debug]", "keyup");
+        if(app.input.keyToRetroID[e.key] && !e.repeat) {
+        app.chat.log("[Debug]", "valid keyup");
+            e.preventDefault();
+            app.chat.log("[Debug]", encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
+            connection.send(encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
         }
     }
 });
