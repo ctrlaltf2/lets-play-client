@@ -59,9 +59,6 @@ var app = {
                     let newWidth = aspectRatio * maxCanvasHeight;
                     let newHeight = maxCanvasHeight;
 
-                    app.chat.log("[Debug]", "New width: " + newWidth);
-                    app.chat.log("[Debug]", "New height: " + newHeight);
-
                     canvas.width = newWidth;
                     canvas.height = newHeight;
 
@@ -176,21 +173,15 @@ $('document').ready(function() {
     }
 
     document.getElementById('screen').onkeydown = function(e) {
-        app.chat.log("[Debug]", "keydown");
         if(app.input.keyToRetroID[e.key] && !e.repeat) {
-        app.chat.log("[Debug]", "valid keydown");
             e.preventDefault();
-            app.chat.log("[Debug]", encodeCommand(["button", "down", app.input.keyToRetroID[e.key] + '']));
             connection.send(encodeCommand(["button", "down", app.input.keyToRetroID[e.key] + '']));
         }
     }
 
     document.getElementById('screen').onkeyup = function(e) {
-        app.chat.log("[Debug]", "keyup");
         if(app.input.keyToRetroID[e.key] && !e.repeat) {
-        app.chat.log("[Debug]", "valid keyup");
             e.preventDefault();
-            app.chat.log("[Debug]", encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
             connection.send(encodeCommand(["button", "up", app.input.keyToRetroID[e.key] + '']));
         }
     }
