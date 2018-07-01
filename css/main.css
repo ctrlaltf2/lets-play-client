@@ -106,7 +106,6 @@ body{
  margin-right:auto
 }
 
-
 .right-column{
  width:34rem
 }
@@ -149,9 +148,30 @@ body{
 }
 
 .chat-input{
- padding-bottom:2rem;
+ padding-bottom:.5rem;
  padding-left:2rem;
  padding-right:2rem
+}
+
+button{
+ border: none;
+ width: auto;
+ appearance: none;
+-webkit-appearance: none;
+ outline: none;
+ background: transparent;
+-webkit-font-smoothing: inherit;
+-moz-osx-font-smoothing: inherit;
+ line-height: normal;
+ margin: 0;
+ overflow: visible;
+ padding: 0;
+ text-align: inherit;
+}
+
+#settings-btn{
+ cursor:pointer;
+ padding-top:.5rem;
 }
 
 #chat-input-box{
