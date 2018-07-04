@@ -3,13 +3,36 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play|Material+Icons" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
+        <link href="css/animations.css" rel="stylesheet">
     </head>
 
     <body>
         <div id="root">
+            <div id="username-modal" class="modal fade-in-out">
+                <div class="modal-box slide-in-fwd-center">
+                    <header class="modal-header">
+                        <h4 class="modal-title">Change Username</h4>
+                        <p id="username-modal-subtitle" class="modal-subtitle">Usernames must be between [MinUserLen] and [MaxUserLen] characters and consist of alphanumeric characters plus some common symbols.</p>
+                    </header>
+                    <section class="modal-content">
+                        <div class="username-group d-flex flex-row flex-nowrap">
+                            <div class="username-box d-flex"><p>Username</p></div>
+                            <input id="username-input" class="flex-grow-1" type="text"></input>
+                        </div>
+                    </section>
+                    <footer class="modal-footer">
+                        <button id="username-cancel" class="flat unimportant">cancel</button>
+                        <button id="username-submit" class="flat important">ok</button>
+                    </footer>
+                </div>
+            </div>
+            <div id="keybind-modal" class="modal fade-in-out">
+                <div class="modal-box slide-in-fwd-center">
+                    
+                </div>
+            </div>
             <div id="app-container">
                 <div id="app">
                     <nav class="nav-container d-flex flex-row flex-nowrap p-relative retro-text">
