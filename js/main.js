@@ -227,14 +227,14 @@ $('document').ready(function() {
     ctx.msImageSmoothingEnabled = false;
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
-    connection = new WebSocket('ws://localhost:' + prompt("Enter port", "8080"));
+    connection = new WebSocket('ws://localhost:' + prompt("Enter port", "3074"));
     connection.binaryType = "arraybuffer";
     connection.onopen = function() {
         console.log('Connection opened');
         let username = 'guest' + Math.floor(Math.random(0, 9999) * 9999);
         let message = encodeCommand(["username", username]);
         connection.send(message);
-        connection.send("7.connect,4.emu1;");;
+        connection.send("7.connect,4.emu1;");
     };
 
     connection.onmessage = function(event) {
@@ -295,6 +295,23 @@ $('document').ready(function() {
     window.addEventListener("gamepadconnected", app.input.gamepad.onconnect);
     window.addEventListener("gamepaddisconnected", app.input.gamepad.ondisconnect);
 });
+
+function setUsername(name, setCookie) {
+    if(setCookie === true) {
+        document.cookie = "username=" + name;
+    } else {
+        if(connection.readyState == connection.OPEN)
+            connection.send(encodeCommand(["username", name]));
+    }
+}
+
+function getUsername() {
+    if (document.cookie.split(';').filter(function(item) {return item.indexOf('username=') >= 0}).length) {
+        return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    } else {
+        setUsername('guest' + Math.floor((Math.random() * 9999)), false);
+    }
+}
 
 function drawSMPTEBars(canvas, ctx) {
     let width = canvas.width,
