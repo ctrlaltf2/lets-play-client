@@ -324,6 +324,7 @@ button.flat.important:active{
 }
 
 .press-a-key{
+ cursor:pointer;
  background-color:#f1f1f1;
  font-size:1.5rem;
 -webkit-transition:color 0.15s, background-color 0.15s;
@@ -337,6 +338,12 @@ button.flat.important:active{
 .press-a-key:active{
  background-color:#37afeb;
  color:#fefefe
+}
+
+.unmappable:hover,.unmappable:active,.unmappable{
+ cursor:default !important;
+ background-color:#f1f1f1 !important;
+ color:#858585 !important
 }
 
 .username-group{
