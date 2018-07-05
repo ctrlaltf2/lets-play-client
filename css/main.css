@@ -185,6 +185,7 @@ button{
 -webkit-appearance: none;
  outline: none;
  background: transparent;
+ color:#19171c;
 -webkit-font-smoothing: inherit;
 -moz-osx-font-smoothing: inherit;
  line-height: normal;
@@ -307,6 +308,37 @@ button.flat.important:active{
  padding-top:0.5rem
 }
 
+.keybindings-column>b{
+ font-weight:bold;
+ font-size:1.5rem
+}
+
+#keybindings-content{
+ justify-content:space-between;
+ overflow-y:scroll;
+ text-align:center
+}
+
+.keybindings-column>p,.press-a-key{
+ margin:2px 0px
+}
+
+.press-a-key{
+ background-color:#f1f1f1;
+ font-size:1.5rem;
+-webkit-transition:color 0.15s, background-color 0.15s;
+ transition:color 0.15s, background-color 0.15s
+}
+
+.press-a-key:hover{
+ background-color:#dedede
+}
+
+.press-a-key:active{
+ background-color:#37afeb;
+ color:#fefefe
+}
+
 .username-group{
  width:100%;
  align-items:center
@@ -332,7 +364,7 @@ button.flat.important:active{
  white-space:nowrap
 }
 
-#username-cancel{
+#username-cancel,#keybindings-cancel{
  margin-right:1rem
 }
 
@@ -340,6 +372,7 @@ button.flat.important:active{
 .d-block{display:block !important}
 .d-flex{display:flex !important}
 .d-hidden{display:none !important}
+.align-end{align-self:flex-end !important}
 .flex-nowrap{flex-wrap:nowrap !important}
 .flex-column{flex-direction:column !important}
 .flex-row{flex-direction:row !important}
