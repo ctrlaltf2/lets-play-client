@@ -294,6 +294,40 @@ $('document').ready(function() {
 
     window.addEventListener("gamepadconnected", app.input.gamepad.onconnect);
     window.addEventListener("gamepaddisconnected", app.input.gamepad.ondisconnect);
+
+    function hideModal(modal) {
+        console.log(modal);
+        modal.style.opacity = '0';
+        setTimeout(function(elem) {
+            elem.className = elem.className.replace('modal-active', '');
+            elem.style.opacity = '';
+        }, 200, modal);
+    }
+
+    $(document).on("click", ".modal", function(e) {
+        var target = $(e.target || e.srcElement);
+        if (target.is(".modal")) {
+            hideModal(target[0]);
+        }
+    });
+
+    let modals = document.getElementsByClassName('modal') || [];
+    for(let i = 0; i < modals.length;++i) {
+        let modal = modals[i];
+        modal.onkeyup = function(e) {
+            if(e.key === 'Escape') {
+                hideModal(modal);
+            }
+        }
+    }
+
+    document.getElementById('keybindings-cancel').onclick = function(e) {
+        hideModal(document.getElementsByClassName('modal-active')[0])
+    };
+
+    document.getElementById('username-cancel').onclick = function(e) {
+        hideModal(document.getElementsByClassName('modal-active')[0])
+    };
 });
 
 function setUsername(name, setCookie) {
