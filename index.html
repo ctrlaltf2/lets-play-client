@@ -11,7 +11,7 @@
     <body>
         <div id="root">
             <div id="username-modal" class="modal fade-in-out">
-                <div class="modal-box slide-in-fwd-center">
+                <div class="modal-box slide-in-fwd-center" tabindex="1">
                     <header class="modal-header">
                         <h4 class="modal-title">Change Username</h4>
                         <p id="username-modal-subtitle" class="modal-subtitle">Usernames must be between [MinUserLen] and [MaxUserLen] characters and consist of alphanumeric characters plus some common symbols.</p>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div id="keybind-modal" class="modal modal-active fade-in-out">
-                <div class="modal-box slide-in-fwd-center">
+                <div class="modal-box slide-in-fwd-center" tabindex="1">
                     <header class="modal-header">
                         <h4 class="modal-title">Keybindings</h4>
                         <p class="modal-subtitle">If your gamepad isn't supported by default, or you'd like to remap the keyboard keys, controls can be changed here. The button layout is based on the SNES controller if it had triggers (L2 R2) and joysticks.</p>
@@ -53,8 +53,6 @@
                             <p>R3</p>
                             <p>Start</p>
                             <p>Select</p>
-                            <p>Left Joystick</p>
-                            <p>Right Joystick</p>
                             <p>Home Button</p>
                         </div>
                         <div id="keybinding-keys" class="keybindings-column d-flex flex-column">
@@ -76,8 +74,6 @@
                             <div id="key-r3" class="press-a-key">V</div>
                             <div id="key-start" class="press-a-key">Enter</div>
                             <div id="key-select" class="press-a-key">Tab</div>
-                            <div class="press-a-key unmappable">Unmappable</div>
-                            <div class="press-a-key unmappable">Unmappable</div>
                             <div id="key-home" class="press-a-key">E</div>
                         </div>
                         <div id="keybinding-gamepad" class="keybindings-column d-flex flex-column">
@@ -98,8 +94,6 @@
                             <div id="btn-r3" class="press-a-key">Button 11</div>
                             <div id="btn-start" class="press-a-key">Button 8</div>
                             <div id="btn-select" class="press-a-key">Button 9</div>
-                            <div id="btn-jl" class="press-a-key">Axes 0, Axes 1</div>
-                            <div id="btn-jr" class="press-a-key">Axes 3, Axes 2</div>
                             <div id="btn-home" class="press-a-key">Button 16</div>
                         </div>
                     </section>
