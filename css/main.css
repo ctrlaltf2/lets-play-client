@@ -178,6 +178,25 @@ textarea,input{
  padding-right:2rem
 }
 
+#settings-popup{
+ border:1px solid #d8ddde;
+ bottom:calc(1.25rem + 25px);
+ position:fixed;
+ z-index:9;
+ background:#fff;
+ padding:.5rem 1rem
+}
+
+#settings-popup>b{
+ font-size:1.5rem;
+ font-weight:bold
+}
+
+.settings-option{
+ cursor:pointer;
+ color:#35a6de
+}
+
 button{
  border: none;
  width: auto;
