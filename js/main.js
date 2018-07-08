@@ -346,6 +346,15 @@ $('document').ready(function() {
     document.getElementById('settings-keybindings').onclick = function(e) {
         showModal(document.getElementById('keybind-modal'));
     };
+
+    document.getElementById('emu-view').onclick = function(e) {
+        if((e.srcElement.id != 'settings-btn') && (e.srcElement.className != 'material-icons'))
+            document.getElementById('settings-popup').style.display = 'none';
+    };
+
+    document.getElementById('settings-btn').onclick = function(e) {
+        document.getElementById('settings-popup').style.display = 'flex';
+    };
 });
 
 function setUsername(name, setCookie) {
