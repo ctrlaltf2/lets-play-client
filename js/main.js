@@ -296,12 +296,22 @@ $('document').ready(function() {
     window.addEventListener("gamepaddisconnected", app.input.gamepad.ondisconnect);
 
     function hideModal(modal) {
-        console.log(modal);
         modal.style.opacity = '0';
         setTimeout(function(elem) {
             elem.className = elem.className.replace('modal-active', '');
             elem.style.opacity = '';
         }, 200, modal);
+    }
+
+    function showModal(modal) {
+        if(modal) {
+            modal.style.opacity = '0';
+            modal.className += ' modal-active';
+            // Firefox doesn't animate this right if there's no delay (chromium is the same way, but the setTimeout can be set to 1)
+            setTimeout(function() {
+                modal.style.opacity = '100';
+            }, 10);
+        }
     }
 
     $(document).on("click", ".modal", function(e) {
@@ -327,6 +337,14 @@ $('document').ready(function() {
 
     document.getElementById('username-cancel').onclick = function(e) {
         hideModal(document.getElementsByClassName('modal-active')[0])
+    };
+
+    document.getElementById('settings-username').onclick = function(e) {
+        showModal(document.getElementById('username-modal'));
+    };
+
+    document.getElementById('settings-keybindings').onclick = function(e) {
+        showModal(document.getElementById('keybind-modal'));
     };
 });
 
