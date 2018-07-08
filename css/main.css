@@ -181,6 +181,7 @@ textarea,input{
 #settings-popup{
  border:1px solid #d8ddde;
  bottom:calc(1.25rem + 25px);
+ display:none;
  position:fixed;
  z-index:9;
  background:#fff;
