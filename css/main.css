@@ -251,7 +251,7 @@ button.flat.important:active{
  background-color:#2f9bd1
 }
 
-#settings-btn,#list-btn{
+#settings-btn,#list-btn,#send-btn{
  cursor:pointer;
  padding-top:.5rem;
  padding-right:.5rem;

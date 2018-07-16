@@ -267,16 +267,23 @@ $('document').ready(function() {
 
     connection.onerror = function() {
         console.log('Connection error.');
-    }
+    };
+
+    sendMessage = function() {
+        let message = document.getElementById('chat-input-box').value.trim();
+        console.log("'" + message + "'");
+        connection.send("4.chat," + message.length + '.' + message + ';');
+        document.getElementById('chat-input-box').value = "";
+    };
 
     document.getElementById('chat-input-box').onkeyup = function(e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
-            let message = document.getElementById('chat-input-box').value.slice(0, -1);
-            connection.send("4.chat," + message.length + '.' + message + ';');
-            document.getElementById('chat-input-box').value = "";
+            sendMessage();
         }
     }
+
+    document.getElementById('send-btn').onclick = sendMessage;
 
     document.getElementById('screen').onkeydown = function(e) {
         if(!(app.input.keyToRetroID[e.key] === undefined) && !e.repeat) {
@@ -348,7 +355,9 @@ $('document').ready(function() {
     };
 
     document.getElementById('emu-view').onclick = function(e) {
-        if((e.srcElement.id != 'settings-btn') && (e.srcElement.className != 'material-icons'))
+        console.log(e);
+        let target = e.srcElement || e.target;
+        if((target.id != 'settings-btn') && (target.className != 'material-icons'))
             document.getElementById('settings-popup').style.display = 'none';
     };
 
