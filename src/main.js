@@ -3,6 +3,9 @@ var trueWidth = -1,
 
 // Object for storing callbacks (exposed to allow for userscripts to extend functionality)
 var app = {
+    username: "",
+    pendingUsername: "",
+    waitingUsernameValid: false,
     input: {
         gamepad: {
             connected: false,
@@ -348,6 +351,7 @@ $('document').ready(function() {
 
     document.getElementById('settings-username').onclick = function(e) {
         showModal(document.getElementById('username-modal'));
+        document.getElementById('username-input').value = getUsername();
     };
 
     document.getElementById('settings-keybindings').onclick = function(e) {
@@ -369,9 +373,14 @@ $('document').ready(function() {
 function setUsername(name, setCookie) {
     if(setCookie === true) {
         document.cookie = "username=" + name;
+        app.username = name;
+        app.waitingUsernameValid = false;
     } else {
-        if(connection.readyState == connection.OPEN)
+        if(connection.readyState == connection.OPEN) {
+            app.pendingUsername = name;
+            app.waitingUsernameValid = true;
             connection.send(encodeCommand(["username", name]));
+        }
     }
 }
 
@@ -379,7 +388,7 @@ function getUsername() {
     if (document.cookie.split(';').filter(function(item) {return item.indexOf('username=') >= 0}).length) {
         return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     } else {
-        setUsername('guest' + Math.floor((Math.random() * 9999)), false);
+        return undefined;
     }
 }
 
