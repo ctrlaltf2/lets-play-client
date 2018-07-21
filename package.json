@@ -2,7 +2,7 @@
   "name": "lets-play-server-client",
   "version": "1.0.0",
   "description": "Client for https://github.com/ctrlaltf2/lets-play-server",
-  "main": "index.js",
+  "private": true,
   "directories": {
     "test": "test"
   },
@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/ctrlaltf2/lets-play-client/issues"
   },
-  "homepage": "https://github.com/ctrlaltf2/lets-play-client#readme"
+  "homepage": "https://github.com/ctrlaltf2/lets-play-client#readme",
+  "devDependencies": {
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  }
 }
