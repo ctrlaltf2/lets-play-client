@@ -1,5 +1,5 @@
-var trueWidth = -1,
-    trueHeight = -1;
+import video from './video.js'
+import gamepad from './gamepad.js'
 
 // Object for storing callbacks (exposed to allow for userscripts to extend functionality)
 var app = {
@@ -14,12 +14,12 @@ var app = {
                 if(evt.gamepad.index === 0) {
                     // Try to use standard mapping if the controller has it
                     if(evt.gamepad.mapping == 'standard') {
-                        app.input.gamepad.layout = gamepadMaps['standard'];
+                        app.input.gamepad.layout = gamepad.maps['standard'];
                         app.input.gamepad.connected = true;
                         app.input.gamepad.pollInput();
                     } else { // Try to lookup button map in known maps
                         if(gamepadMaps[evt.gamepad.id]) {
-                            app.input.gamepad.layout = gamepadMaps[evt.gamepad.id];
+                            app.input.gamepad.layout = gamepad.maps[evt.gamepad.id];
                             app.input.gamepad.connected = true;
                             app.input.gamepad.pollInput();
                         } else {
@@ -113,18 +113,18 @@ var app = {
             lastPolledTimestamp: 0
         },
         keyToRetroID: {
-            'x':            RetroJoypad['B'],
-            'c':            RetroJoypad['A'],
-            's':            RetroJoypad['X'],
-            'a':            RetroJoypad['Y'],
-            'ArrowUp':      RetroJoypad['Up'],
-            'ArrowDown':    RetroJoypad['Down'],
-            'ArrowLeft':    RetroJoypad['Left'],
-            'ArrowRight':   RetroJoypad['Right'],
-            'Tab':          RetroJoypad['Select'],
-            'Enter':        RetroJoypad['Start'],
-            'q':            RetroJoypad['L'],
-            'e':            RetroJoypad['R']
+            'x':            gamepad.retroJoypad['B'],
+            'c':            gamepad.retroJoypad['A'],
+            's':            gamepad.retroJoypad['X'],
+            'a':            gamepad.retroJoypad['Y'],
+            'ArrowUp':      gamepad.retroJoypad['Up'],
+            'ArrowDown':    gamepad.retroJoypad['Down'],
+            'ArrowLeft':    gamepad.retroJoypad['Left'],
+            'ArrowRight':   gamepad.retroJoypad['Right'],
+            'Tab':          gamepad.retroJoypad['Select'],
+            'Enter':        gamepad.retroJoypad['Start'],
+            'q':            gamepad.retroJoypad['L'],
+            'e':            gamepad.retroJoypad['R']
         }
     },
     chat: {
@@ -142,42 +142,6 @@ var app = {
                 return eval("'" + x + "'")
         });
         app.chat.log(command[1], command[2]);
-    },
-    onscreen: function(imgdata) {
-        let bytearray = new Uint8Array(imgdata);
-        var binstr = Array.prototype.map.call(bytearray, function (ch) {
-            return String.fromCharCode(ch);
-        }).join('');
-        let b64encoded = btoa(binstr);
-
-        var image = new Image();
-        image.addEventListener('load', function() {
-            var canvas = document.getElementById('screen');
-            if (canvas.getContext) {
-                if(trueWidth != image.width || trueHeight != image.height) {
-                    trueWidth = image.width;
-                    trueHeight = image.height;
-
-                    let aspectRatio = image.width / image.height;
-                    // Better ways to do this, but Google doesn't know how to implement a standard...
-                    let oneRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-                    let maxCanvasHeight = parseFloat(window.getComputedStyle(document.getElementsByClassName('display-container')[0]).height) - (2 * oneRem);
-
-                    let newWidth = aspectRatio * maxCanvasHeight;
-                    let newHeight = maxCanvasHeight;
-
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-
-                    document.getElementById('screen').style.height = newHeight + 'px !important';
-                    document.getElementById('screen').style.width = newWidth + 'px !important';
-                }
-                var ctx = canvas.getContext('2d');
-                ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            }
-        });
-        image.src = 'data:image/jpeg;base64,' + b64encoded;
     },
     onlist: function(command) {
         app.chat.log("[Server]", "Users online: " + (command.length - 1));
@@ -243,7 +207,7 @@ $('document').ready(function() {
     connection.onmessage = function(event) {
         // Binary message type
         if(event.data instanceof ArrayBuffer) {
-            app.onscreen(event.data);
+            video.onUpdate(event.data);
         } else { // Plaintext message type
             console.log('text message: ' + event.data);
             let command = decodeCommand(event.data);
