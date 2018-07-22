@@ -62,7 +62,7 @@ function LetsPlayClient() {
     };
 
     this.setUsername = function(newUsername) {
-        if(socket.rawSocket.readyState == WebSocket.OPEN) {
+        if(!socket.pendingValidation && socket.rawSocket.readyState == WebSocket.OPEN) {
             socket.pendingValidation = true;
             socket.send('username', newUsername);
         }
