@@ -1,16 +1,15 @@
 import Keyboard from './Keyboard.js'
 import Display from './Display.js'
-import LetsPlayProtocol from './LetsPlayProtocol.js'
 
 function LetsPlayClient() {
     var self = this;
     this.display = new Display();
     this.connection = {};
     var connection = this.connection;
+    var socket;
 
     // Add a new message to the chat
     this.appendMessage = function(who, message) {
-        console.log("Chat:", who, message);
         let chat_list = document.getElementById('chat-list-items');
         let message_container = document.createElement('div');
         message_container.className = 'chat-item';
@@ -21,10 +20,8 @@ function LetsPlayClient() {
 
     this.sendChatboxContent = function() {
         let message = document.getElementById('chat-input-box').value.trim();
-        console.log("'" + message + "'");
-        console.log(connection);
-        if(connection.readyState === WebSocket.OPEN)
-            connection.send(LetsPlayProtocol.encode(["chat", message]));        document.getElementById('chat-input-box').value = "";
+        socket.send('chat', message);
+        document.getElementById('chat-input-box').value = "";
     };
 
     this.hideModal = function(modal) {
@@ -47,8 +44,28 @@ function LetsPlayClient() {
     };
 
     this.updateSocket = function(newSocket) {
-        self.connection = newSocket;
-        connection = newSocket;
+        self.connection = newSocket.socket;
+        connection = newSocket.socket;
+        socket = newSocket;
+    };
+
+    this.invalidUsername = function() {
+        document.getElementById('username-modal-subtitle').style.color = '#e42e2e';
+        document.getElementsByClassName('username-group')[0].className += ' shake-horizontal';
+        setTimeout(function() { document.getElementById('username-modal-subtitle').style.color = ''; }, 500);
+        setTimeout(function() { document.getElementsByClassName('username-group')[0].className = document.getElementsByClassName('username-group')[0].className.replace(' shake-horizontal', '');}, 900);
+    };
+
+    this.validUsername = function(newUsername) {
+        localStorage.setItem('username', newUsername);
+        self.hideModal(document.getElementsByClassName('modal-active')[0])
+    };
+
+    this.setUsername = function(newUsername) {
+        if(socket.rawSocket.readyState == WebSocket.OPEN) {
+            socket.pendingValidation = true;
+            socket.send('username', newUsername);
+        }
     };
 
     // When outisde box of modal is clicked, close it
@@ -77,15 +94,18 @@ function LetsPlayClient() {
         self.hideModal(document.getElementsByClassName('modal-active')[0])
     };
 
+    document.getElementById('username-submit').onclick = function(e) {
+        self.setUsername(document.getElementById('username-input').value || '');
+    }
+
     document.getElementById('settings-username').onclick = function(e) {
         self.showModal(document.getElementById('username-modal'));
-        //document.getElementById('username-input').value = getUsername();
+        document.getElementById('username-input').value = localStorage.getItem('username') || '';
     };
 
     document.getElementById('settings-keybindings').onclick = function(e) {
         self.showModal(document.getElementById('keybind-modal'));
     };
-
 
     // On enter (not shift-enter), send chatbox contents as a chat message
     document.getElementById('chat-input-box').onkeyup = function(e) {
@@ -95,28 +115,33 @@ function LetsPlayClient() {
         }
     }
 
+    // On enter, set username
+    document.getElementById('username-input').onkeyup = function(e) {
+        if(e.key == 'Enter' || e.keyCode == 13) {
+            e.preventDefault();
+            self.setUsername(document.getElementById('username-input').value || '');
+        }
+    }
+
     // Send chatbox contents on send button click
     document.getElementById('send-btn').onclick = self.sendChatboxContent;
 
     document.getElementById('screen').onkeydown = function(e) {
         if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
             e.preventDefault();
-            self.connection.send(LetsPlayProtocol.encode(["button", "down", Keyboard.keyAsRetroID[e.key] + '']));
+            socket.send('button', 'down', Keyboard.keyAsRetroID[e.key] + '');
         }
     };
 
     document.getElementById('screen').onkeyup = function(e) {
-        console.log(Keyboard.keyAsRetroID[e.key]);
-        console.log(e.key);
         if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
             e.preventDefault();
-            self.connection.send(LetsPlayProtocol.encode(["button", "up", Keyboard.keyAsRetroID[e.key] + '']));
+            socket.send('button', 'up', Keyboard.keyAsRetroID[e.key] + '');
         }
     };
 
     // Hide the settings dialogue if anything other than the navbar or settings dialogue is clicked
     document.getElementById('emu-view').onclick = function(e) {
-        console.log(e);
         let target = e.srcElement || e.target;
         if((target.id != 'settings-btn') && (target.className != 'material-icons'))
             document.getElementById('settings-popup').style.display = 'none';

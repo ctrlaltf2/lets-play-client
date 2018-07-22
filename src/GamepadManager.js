@@ -1,4 +1,3 @@
-import LetsPlayProtocol from './LetsPlayProtocol.js'
 import RetroJoypad from './RetroJoypad.js'
 
 /**
@@ -134,11 +133,9 @@ function GamepadManager(socket) {
 
                     if(controller.buttons[i].pressed !== self.buttonState[i]) {
                         if(controller.buttons[i].pressed) { // down
-                            if(socket.readyState === socket.OPEN)
-                                socket.send(LetsPlayProtocol.encode(["button", "down", layout.buttons[i] + '']));
+                            socket.send('button', 'down', layout.buttons[i] + '');
                         } else { // up
-                            if(socket.readyState === socket.OPEN)
-                                socket.send(LetsPlayProtocol.encode(["button", "up", layout.buttons[i] + '']));
+                            socket.send('button', 'up', layout.buttons[i] + '');
                         }
                     }
 
@@ -166,16 +163,12 @@ function GamepadManager(socket) {
                     let previousValue = self.axesState[i];
                     if(previousValue != value) {
                         if(previousValue === 0) { // Rest -> something
-                            if(socket.readyState === socket.OPEN)
-                                socket.send(LetsPlayProtocol.encode(["button", "down", layout.axes[i].getRetroID(value) + '']));
+                            socket.send('button', 'down', layout.axes[i].getRetroID(value) + '');
                         } else if (value === 0) { // Something -> Rest
-                            if(socket.readyState === socket.OPEN)
-                                socket.send(LetsPlayProtocol.encode(["button", "up", layout.axes[i].getRetroID(previousValue) + '']));
+                            socket.send('button', 'up', layout.axes[i].getRetroID(value) + '');
                         } else { // Something -> something
-                            if(socket.readyState === socket.OPEN) {
-                                socket.send(LetsPlayProtocol.encode(["button", "up", layout.axes[i].getRetroID(previousValue) + '']));
-                                socket.send(LetsPlayProtocol.encode(["button", "down", layout.axes[i].getRetroID(value) + '']));
-                            }
+                            socket.send('button', 'up', layout.axes[i].getRetroID(value) + '');
+                            socket.send('button', 'down', layout.axes[i].getRetroID(value) + '');
                         }
                     }
 
@@ -221,23 +214,5 @@ function Axes(negativeValue, positiveValue) {
             return self.IDifPositive;
     };
 };
-
-var Keyboard = {
-    keyAsRetroID: {
-        'x':            RetroJoypad['B'],
-        'c':            RetroJoypad['A'],
-        's':            RetroJoypad['X'],
-        'a':            RetroJoypad['Y'],
-        'ArrowUp':      RetroJoypad['Up'],
-        'ArrowDown':    RetroJoypad['Down'],
-        'ArrowLeft':    RetroJoypad['Left'],
-        'ArrowRight':   RetroJoypad['Right'],
-        'Tab':          RetroJoypad['Select'],
-        'Enter':        RetroJoypad['Start'],
-        'q':            RetroJoypad['L'],
-        'e':            RetroJoypad['R']
-    }
-};
-
 
 export default GamepadManager;
