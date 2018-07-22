@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play|Material+Icons" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
-        <link href="css/animations.css" rel="stylesheet">
+        <link href="./css/main.css" rel="stylesheet">
+        <link href="./css/animations.css" rel="stylesheet">
     </head>
 
     <body>
@@ -148,9 +148,13 @@
                                                     </div>
                                                     <div class="p-relative z-1">
                                                         <div>
-                                                            <textarea id="chat-input-box" class="d-block width-100" placeholder="Send a message..."></textarea>
-                                                            <button id="settings-btn"><i class="material-icons">settings</i></button>
-                                                            <button id="list-btn"><i class="material-icons">list</i></button>
+                                                            <textarea id="chat-input-box" class="d-block width-100" placeholder="Send a message..." rows="2"></textarea>
+                                                            <div class="d-flex flex-row width-100">
+                                                                <button id="settings-btn" title="Settings"><i class="material-icons">settings</i></button>
+                                                                <button id="list-btn" title="Users List"><i class="material-icons">list</i></button>
+                                                                <div class="flex-grow-1"></div>
+                                                                <button id="send-btn" title="Send Message"><i class="material-icons">send</i></button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,7 +169,8 @@
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="js/gamepad.js"></script>
-        <script src="js/main.js"></script>
+        <!--<script src="js/gamepad.js"></script>
+        <script src="js/main.js"></script>-->
+        <script src="./bundle.js"></script>
     </body>
 </html>
