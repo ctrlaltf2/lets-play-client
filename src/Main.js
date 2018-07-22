@@ -5,7 +5,7 @@ import LetsPlaySocket from './LetsPlaySocket.js'
 $('document').ready(function() {
     var client = new LetsPlayClient();
     var connection = new LetsPlaySocket('ws://localhost' + prompt('Dev port', '3074'), client);
-    client.updateSocket(connection.socket);
+    client.updateSocket(connection);
     var gm = new GamepadManager(connection.socket);
 
     // Expose most of the application for userscripts to extend and for debugging
