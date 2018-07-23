@@ -23,7 +23,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 }
 
 html{
- font-size:62.5%
+ font-size:10px
 }
 
 body{
@@ -145,7 +145,7 @@ textarea,input{
  padding-right:1rem
 }
 
-.chat-content{
+.right-pane{
  border-left:1px solid #d8ddde;
  background-color:#eef0f1
 }
@@ -394,6 +394,41 @@ button.flat.important:active{
 #username-cancel,#keybindings-cancel{
  margin-right:1rem
 }
+#user-list-title{
+ border-bottom: 1px solid #d8ddde;
+ min-height:5rem;
+}
+
+#user-list-title>p{
+ width:100%;
+ align-self:center;
+ font-size:1.5rem;
+ padding:1rem;
+ padding-left:2rem
+}
+
+#user-list-close{
+ cursor:pointer;
+ height:24px;
+ width:24px;
+ align-self:center;
+ margin-right:1rem
+}
+
+#user-list{
+ overflow:auto
+}
+
+.user-list-item:last-child{
+ padding-bottom:1rem
+}
+
+.user-list-item{
+ display:flex;
+ flex-direction:row;
+ padding-left:2rem;
+ padding-top:1rem
+}
 
 .p-relative{position:relative !important}
 .d-block{display:block !important}
@@ -428,5 +463,4 @@ a:visited{color:#941352}
  font-smooth: never;
 -webkit-font-smoothing : none
  }
-
 
