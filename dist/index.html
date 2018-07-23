@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play|Material+Icons" rel="stylesheet">
         <link href="./css/main.css" rel="stylesheet">
         <link href="./css/animations.css" rel="stylesheet">
+        <title>Let's Play</title>
     </head>
 
     <body>
@@ -19,7 +20,7 @@
                     <section class="modal-content">
                         <div class="username-group d-flex flex-row flex-nowrap">
                             <div class="username-box d-flex"><p>Username</p></div>
-                            <input id="username-input" class="flex-grow-1" type="text"></input>
+                            <input id="username-input" class="flex-grow-1" type="text"/>
                         </div>
                     </section>
                     <footer class="modal-footer">
@@ -126,6 +127,46 @@
                         <div class="chat-column flex-shrink-0 height-100 p-relative">
                             <div class="d-block flew-grow-0 flex-shrink-0 height-100 p-relative">
                                 <div class="right-column d-flex flex-column flex-grow-0 flex-nowrap flex-shrink-0 height-100 overflow-hidden">
+                                    <div class="d-hidden right-pane d-flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
+                                        <div class="d-flex flex-column height-100">
+                                            <div id="user-list-title" class="d-flex flex-row flex-grow-1">
+                                                <p>5 Users Online</p>
+                                                <button id="user-list-close"><i class="material-icons">close</i></button>
+                                            </div>
+                                            <div id="user-list">
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                                <div class="user-list-item"><p>Matt Shultz</div>
+                                                <div class="user-list-item"><p>John Baldwin Gourley</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="d-flex flex-column flex-grow-1 flex-nowrap height-100 width-100 p-relative z-1">
                                         <div class="chat-header f-align-center d-flex flex-shrink-0 width-100 f-justify-content-between">
                                             <div class="room-name">
@@ -133,7 +174,7 @@
                                             </div>
                                         </div>
                                         <section class="d-flex flex-column flex-grow-1 flex-shrink-1 height-100 width-100 overflow-hidden">
-                                            <div class="chat-content d-flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
+                                            <div class="right-pane d-flex flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
                                                 <div class="chat-list-container d-flex flex-column flex-grow-1 flex-nowrap overflow-hidden p-relative">
                                                     <div class="chat-list d-flex flex-column flex-grow-1 flex-nowrap overflow-hidden">
                                                         <div id="chat-list-items" class="flex-grow-1 height-100"></div>
