@@ -24,7 +24,7 @@ function LetsPlaySocket(wsURI, client) {
      * Function called when the server emits a list command.
      */
     this.onList = function(command) {
-        client.appendMessage("[Server]", "Users online: " + (command.length - 1));
+        client.updateUserList(command.slice(1));
     };
 
     /**
@@ -39,9 +39,17 @@ function LetsPlaySocket(wsURI, client) {
                 client.validUsername(command[2]);
             }
         } else { // A rename
-            client.appendMessage('[Rename]', command[1] + ' changed their username to ' + command[2]);
+            client.renameUser(command[1], command[2]);
         }
     };
+
+    this.onJoin = function(command) {
+        client.addUser(command[1]);
+    }
+
+    this.onLeave = function(command) {
+        client.removeUser(command[1]);
+    }
 
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
@@ -51,6 +59,7 @@ function LetsPlaySocket(wsURI, client) {
         console.log('Connection opened');
         self.send('username', localStorage.getItem('username') || ('guest' + Math.floor(Math.random(0, 9999) * 9999)));
         self.send('connect', 'emu1');
+        self.send('list');
     };
 
     rawSocket.onclose = function() {
@@ -81,6 +90,12 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "username":
                     self.onUsername(command);
+                    break;
+                case "join":
+                    self.onJoin(command);
+                    break;
+                case "leave":
+                    self.onLeave(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);

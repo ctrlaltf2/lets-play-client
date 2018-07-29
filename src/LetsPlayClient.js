@@ -8,6 +8,9 @@ function LetsPlayClient() {
     var connection = this.connection;
     var socket;
 
+    // List of strings for who's online
+    this.onlineUsers = [];
+
     // Add a new message to the chat
     this.appendMessage = function(who, message) {
         let chat_list = document.getElementById('chat-list-items');
@@ -68,9 +71,55 @@ function LetsPlayClient() {
         }
     };
 
-    // When outisde box of modal is clicked, close it
+    this.updateUserList = function(list) {
+        self.onlineUsers = list;
+        self.onlineUsers.sort();
+        let listElem = document.querySelector('#user-list');
+        listElem.innerHTML = "";
+        for(let i in list) {
+            listElem.innerHTML += `<div class="user-list-item">
+                                       <p>` + list[i] + `</p>
+                                   </div>`;
+        }
+        self.updateUserCount();
+    };
+    self = this;
+
+    this.updateUserCount = function() {
+        let count = self.onlineUsers.length;
+        let s = '';
+        if(count === 0)
+            s += 'No Users';
+        else if(count === 1)
+            s += '1 User';
+        else
+            s += '' + count + ' Users';
+
+        s += ' Online';
+
+        $('#user-list-title').children().first().text(s);
+    }
+
+    this.addUser = function(who) {
+        self.onlineUsers.push(who);
+        self.onlineUsers.sort();
+        self.updateUserList(self.onlineUsers);
+    }
+
+    this.removeUser = function(who) {
+        self.updateUserList(self.onlineUsers.filter(word => word !== who));
+    }
+
+    this.renameUser = function(who, toWhat) {
+        let i = self.onlineUsers.indexOf(who);
+        if(i !== -1)
+            self.onlineUsers[i] = toWhat;
+        self.updateUserList(self.onlineUsers);
+    }
+
+    // When outside box of modal is clicked, close it
     $(document).on("click", ".modal", function(e) {
-        var target = $(e.target || e.srcElement);
+        let target = $(e.target || e.srcElement);
         if (target.is(".modal")) {
             self.hideModal(target[0]);
         }
@@ -151,6 +200,21 @@ function LetsPlayClient() {
     document.getElementById('settings-btn').onclick = function(e) {
         document.getElementById('settings-popup').style.display = 'flex';
     };
+
+    document.getElementById('user-list-close').onclick = function() {
+        removeClass(document.getElementById('user-list-pane'), 'd-flex');
+        document.getElementById('chat-pane').className += ' d-flex';
+
+    };
+
+    document.getElementById('list-btn').onclick = function() {
+        removeClass(document.getElementById('chat-pane'), 'd-flex');
+        document.getElementById('user-list-pane').className += ' d-flex';
+    };
+}
+
+function removeClass(elem, what) {
+    elem.className = elem.className.replace(what, ' ').trim().replace(/\s{2,}/, ' ');
 }
 
 export default LetsPlayClient;
