@@ -6,12 +6,13 @@ $('document').ready(function() {
     var client = new LetsPlayClient();
     var connection = new LetsPlaySocket('ws://localhost' + prompt('Dev port', '3074'), client);
     client.updateSocket(connection);
-    var gm = new GamepadManager(connection.socket);
+    var gm = new GamepadManager(connection);
 
     // Expose most of the application for userscripts to extend and for debugging
     global.LetsPlay = {
         Client: client,
         Display: display,
-        GamepadManager: gm
+        GamepadManager: gm,
+        Socket: connection
     };
 });

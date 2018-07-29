@@ -396,7 +396,8 @@ button.flat.important:active{
 }
 #user-list-title{
  border-bottom: 1px solid #d8ddde;
- min-height:5rem;
+ max-height:5rem;
+ min-height:5rem
 }
 
 #user-list-title>p{
@@ -405,6 +406,10 @@ button.flat.important:active{
  font-size:1.5rem;
  padding:1rem;
  padding-left:2rem
+}
+
+#user-list-pane,#chat-pane{
+ display:none
 }
 
 #user-list-close{
