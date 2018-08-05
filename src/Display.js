@@ -17,9 +17,9 @@ function Display() {
         }).join('');
         let b64encoded = btoa(binstr);
 
-        var image = new Image();
+        let image = new Image();
         image.addEventListener('load', function() {
-            var canvas = document.getElementById('screen');
+            let canvas = document.getElementById('screen');
             if (canvas.getContext) {
                 if(trueWidth != image.width || trueHeight != image.height) {
                     trueWidth = image.width;
@@ -39,7 +39,7 @@ function Display() {
                     document.getElementById('screen').style.height = newHeight + 'px !important';
                     document.getElementById('screen').style.width = newWidth + 'px !important';
                 }
-                var ctx = canvas.getContext('2d');
+                let ctx = canvas.getContext('2d');
                 ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }

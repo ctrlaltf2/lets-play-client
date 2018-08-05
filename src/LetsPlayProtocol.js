@@ -1,6 +1,6 @@
 const LetsPlayProtocol = {
     encode: function(cypher) {
-        var command = "";
+        let command = "";
         for (var i = 0; i < cypher.length; i++) {
             var current = cypher[i];
             command += current.length + "." + current;
@@ -9,8 +9,8 @@ const LetsPlayProtocol = {
         return command;
     },
     decode: function(string) {
-        var pos = -1;
-        var sections = [];
+        var pos = -1,
+            sections = [];
         for (let i =0;i < 25;++i) {
             var len = string.indexOf('.', pos + 1);
             if (len == -1) {
