@@ -3,11 +3,13 @@ import RetroJoypad from './RetroJoypad.js'
 /**
  * Threshold for the values of the analog sticks/buttons that determines whether its pressed or not.
  * @type {number}
+ * @const
  */
-var analogThreshold = 0.2;
+const analogThreshold = 0.2;
 
 function GamepadManager(socket) {
     var self = this;
+
     /**
      * Maps for various common gamepads
      */
@@ -78,6 +80,7 @@ function GamepadManager(socket) {
      * Callback registered for when a gamepad is connected.
      */
     this.onConnect = function(evt) {
+	// For now only use first plugged in controller
         if(evt.gamepad.index === 0) {
             // Try to use standard mapping if the controller has it
             if(evt.gamepad.mapping === 'standard') {
@@ -102,6 +105,7 @@ function GamepadManager(socket) {
      * Callback registered for when a gamepad is disconnected.
     */
     this.onDisconnect = function(evt) {
+	// Only use the first plugged in controller
         if(evt.gamepad.index === 0) {
             self.isConnected = false;
             self.buttonState = [];
@@ -131,6 +135,7 @@ function GamepadManager(socket) {
                         self.buttonState[i] = false;
                     }
 
+                    // If button state changed
                     if(controller.buttons[i].pressed !== self.buttonState[i]) {
                         if(controller.buttons[i].pressed) { // down
                             socket.send('button', 'down', layout.buttons[i] + '');
