@@ -18,7 +18,7 @@ function LetsPlayClient() {
     // Add a new message to the chat
     this.appendMessage = function(who, message) {
         // Append a message to the chat log
-        $(`<p class="username">` + who + `</p><p class="separator">:</p><span class="chat-text">` + message + `</span>`).appendTo('#chat-list-items');
+        $(` <div class="chat-item"><p class="username">` + who + `</p><p class="separator">:</p><span class="chat-text">` + message + `</span></div>`).appendTo('#chat-list-items');
 
         // Set scroll to bottom
         let chat_list = document.getElementById('chat-list-items');
@@ -43,6 +43,7 @@ function LetsPlayClient() {
 
     this.showModal = function(DOMSelector) {
         let jElem = $(DOMSelector);
+        console.log(jElem);
         jElem.css('opacity', '0');
         jElem.addClass('modal-active');
         // Firefox doesn't animate this right if there's no delay (chromium is the same way, but the setTimeout can be set to 1)
@@ -59,7 +60,7 @@ function LetsPlayClient() {
     };
 
     this.invalidUsername = function() {
-        $('#user-modal-subtitle').css('style', '#e42e2e');
+        $('#username-modal-subtitle').css('color', '#e42e2e');
         $('.username-group').addClass('shake-horizontal');
         setTimeout(function() {
             $('#username-modal-subtitle').css('color', '');
@@ -89,7 +90,7 @@ function LetsPlayClient() {
         for(let i in list) {
             $(`<div class="user-list-item">
                     <p>` + list[i] + `</p>
-                `/div>`).appendTo('#user-list');
+                </div>`).appendTo('#user-list');
         }
         self.updateUserCount();
     };
@@ -150,12 +151,12 @@ function LetsPlayClient() {
     });
 
     $('#settings-username').click(() => {
-        self.showModal('.username-modal');
+        self.showModal('#username-modal');
         $('#username-input').val(localStorage.getItem('username') || '');
     });
 
     $('#settings-keybindings').click(e => {
-        self.showModal('.keybind-modal');
+        self.showModal('#keybind-modal');
     });
 
     // On enter (not shift-enter), send chatbox contents as a chat message
@@ -200,7 +201,7 @@ function LetsPlayClient() {
 
     // Show the settings dialogue when the settings button is clicked
     $('#settings-btn').click(e => {
-        $('#settings-popup').css('display', 'flex !important');
+        $('#settings-popup').css('display', 'flex');
     });
 
     $('#user-list-close').click(e => {
