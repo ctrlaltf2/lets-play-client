@@ -3,7 +3,7 @@ import Display from './Display.js'
 
 function LetsPlayClient() {
     var self = this;
-    
+
     // Initialize the display
     this.display = new Display();
 
@@ -94,6 +94,10 @@ function LetsPlayClient() {
         }
         self.updateUserCount();
     };
+
+    this.usernameAvailable = function(name) {
+        return self.onlineUsers.indexOf(name) === -1;
+    }
 
     this.updateUserCount = function() {
         let count = self.onlineUsers.length,

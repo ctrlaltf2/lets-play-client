@@ -7,8 +7,11 @@ function LetsPlaySocket(wsURI, client) {
     this.pendingValidation = false;
 
     this.send = function() {
-        if(rawSocket.readyState === WebSocket.OPEN)
-            rawSocket.send(LetsPlayProtocol.encode(arguments));
+        if(rawSocket.readyState === WebSocket.OPEN) {
+            let message = LetsPlayProtocol.encode(arguments);
+            console.log('>> ' + message);
+            rawSocket.send(message);
+        }
     };
     /**
      * Function called when the server emits a chat command. Updates the chat list in the html to the new content after unescaping unicode and hex sequences in the message.
@@ -37,6 +40,9 @@ function LetsPlaySocket(wsURI, client) {
                 client.invalidUsername();
             } else if(command[1] === '1') {
                 client.validUsername(command[2]);
+            } else if(command[2] === '') { // Tried to duplicate username
+                console.log('duplicate');
+                client.validUsername(guestUsername());
             }
         } else { // A rename
             client.renameUser(command[1], command[2]);
@@ -51,13 +57,21 @@ function LetsPlaySocket(wsURI, client) {
         client.removeUser(command[1]);
     }
 
+    var guestUsername = function() {
+        let username = '';
+        do {
+            username = 'guest' + Math.floor(Math.random() * 9999);
+        } while(!client.usernameAvailable(username));
+        return username;
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
 
     rawSocket.onopen = function() {
         console.log('Connection opened');
-        self.send('username', localStorage.getItem('username') || ('guest' + Math.floor(Math.random(0, 9999) * 9999)));
+        self.send('username', localStorage.getItem('username') || guestUsername());
         self.send('connect', 'emu1');
         self.send('list');
     };
@@ -76,7 +90,7 @@ function LetsPlaySocket(wsURI, client) {
         if(event.data instanceof ArrayBuffer) {
             client.display.update(event.data);
         } else { // Plaintext message type
-            console.log('text message: ' + event.data);
+            console.log('<< ' + event.data);
             let command = LetsPlayProtocol.decode(event.data);
             if(command.length == 0)
                 return;
