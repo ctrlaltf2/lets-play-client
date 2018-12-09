@@ -3,6 +3,7 @@ import LetsPlayProtocol from './LetsPlayProtocol.js'
 function LetsPlaySocket(wsURI, client) {
     var self = this;
 
+    var connectedEmu = 'emu1';
     var username = localStorage.getItem('username') || '';
     this.pendingValidation = false;
 
@@ -34,18 +35,15 @@ function LetsPlaySocket(wsURI, client) {
      * Function called when the server emits a username command
      */
     this.onUsername = function(command) {
-        if(self.pendingValidation && (command[1] == '0' || command[1] == '1')) {
-            self.pendingValidation = false;
-            if(command[1] === '0') {
+        if(self.pendingValidation) {
+            console.log(command);
+
+            if(command[1] == command[2]) // No username changed, it was invalid
                 client.invalidUsername();
-            } else if(command[1] === '1') {
+            else
                 client.validUsername(command[2]);
-            } else if(command[2] === '') { // Tried to duplicate username
-                console.log('duplicate');
-                client.validUsername(guestUsername());
-            }
-        } else { // A rename
-            client.renameUser(command[1], command[2]);
+
+            self.pendingValidation = false;
         }
     };
 
@@ -57,12 +55,14 @@ function LetsPlaySocket(wsURI, client) {
         client.removeUser(command[1]);
     }
 
-    var guestUsername = function() {
-        let username = '';
-        do {
-            username = 'guest' + Math.floor(Math.random() * 9999);
-        } while(!client.usernameAvailable(username));
-        return username;
+    this.onConnect = function(command) {
+        if(command[1] === '1') {
+            self.send('list');
+        }
+    }
+
+    this.onRename = function(command) {
+        clent.renameUser(command[1], command[2]);
     }
 
     var rawSocket = new WebSocket(wsURI);
@@ -71,9 +71,8 @@ function LetsPlaySocket(wsURI, client) {
 
     rawSocket.onopen = function() {
         console.log('Connection opened');
-        self.send('username', localStorage.getItem('username') || guestUsername());
-        self.send('connect', 'emu1');
-        self.send('list');
+        client.setUsername(localStorage.getItem('username'));
+        self.send('connect', connectedEmu);
     };
 
     rawSocket.onclose = function() {
@@ -110,6 +109,12 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "leave":
                     self.onLeave(command);
+                    break;
+                case "connect":
+                    self.onConnect(command);
+                    break;
+                case "rename":
+                    self.onRename(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);

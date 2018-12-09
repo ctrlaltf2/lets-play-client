@@ -78,6 +78,7 @@ function LetsPlayClient() {
 
 
     this.setUsername = function(newUsername) {
+        console.log('setUsername');
         if(!socket.pendingValidation && socket.rawSocket.readyState === WebSocket.OPEN) {
             socket.pendingValidation = true;
             socket.send('username', newUsername);
@@ -94,10 +95,6 @@ function LetsPlayClient() {
         }
         self.updateUserCount();
     };
-
-    this.usernameAvailable = function(name) {
-        return self.onlineUsers.indexOf(name) === -1;
-    }
 
     this.updateUserCount = function() {
         let count = self.onlineUsers.length,
