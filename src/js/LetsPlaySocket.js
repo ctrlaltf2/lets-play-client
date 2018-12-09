@@ -62,7 +62,7 @@ function LetsPlaySocket(wsURI, client) {
     }
 
     this.onRename = function(command) {
-        clent.renameUser(command[1], command[2]);
+        client.renameUser(command[1], command[2]);
     }
 
     var rawSocket = new WebSocket(wsURI);
