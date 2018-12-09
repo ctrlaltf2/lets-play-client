@@ -2,7 +2,7 @@ const LetsPlayProtocol = {
     encode: function(cypher) {
         let command = "";
         for (var i = 0; i < cypher.length; i++) {
-            var current = cypher[i];
+            var current = cypher[i] || '';
             command += current.length + "." + current;
             command += (i < cypher.length - 1 ? "," : ";");
         }
