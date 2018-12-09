@@ -16,9 +16,24 @@ function LetsPlayClient() {
     this.onlineUsers = [];
 
     // Add a new message to the chat
-    this.appendMessage = function(who, message) {
+    this.appendMessage = function(who, message, type="chat") {
+        switch(type) {
+            case "chat":
+                $(` <div class="chat-item">
+                        <p class="username">` + who + `</p>
+                        <p class="separator">:</p>
+                        <span class="chat-text">` + message + `</span>
+                    </div>`)
+                    .appendTo('#chat-list-items');
+                break;
+            case "announcement":
+                $(` <div class="chat-item">
+                        <span class="chat-announcement">` + message + `</span>
+                    </div>`)
+                .appendTo('#chat-list-items');
+                break;
+        }
         // Append a message to the chat log
-        $(` <div class="chat-item"><p class="username">` + who + `</p><p class="separator">:</p><span class="chat-text">` + message + `</span></div>`).appendTo('#chat-list-items');
 
         // Set scroll to bottom
         let chat_list = document.getElementById('chat-list-items');

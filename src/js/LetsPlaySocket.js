@@ -48,11 +48,14 @@ function LetsPlaySocket(wsURI, client) {
     };
 
     this.onJoin = function(command) {
+        console.log(command);
         client.addUser(command[1]);
+        client.appendMessage('', command[1] + ' has joined.', 'announcement');
     }
 
     this.onLeave = function(command) {
         client.removeUser(command[1]);
+        client.appendMessage('', command[1] + ' has left.', 'announcement');
     }
 
     this.onConnect = function(command) {
@@ -63,6 +66,7 @@ function LetsPlaySocket(wsURI, client) {
 
     this.onRename = function(command) {
         client.renameUser(command[1], command[2]);
+        client.appendMessage('', command[1] + ' is now known as ' + command[2] + '.', 'announcement');
     }
 
     var rawSocket = new WebSocket(wsURI);
