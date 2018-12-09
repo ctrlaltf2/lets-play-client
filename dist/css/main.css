@@ -165,7 +165,7 @@ textarea,input{
 }
 
 .username,.separator,.chat-text{
- display:inline;
+ display:inline
 }
 
 .chat-text{
@@ -176,6 +176,10 @@ textarea,input{
  padding-bottom:.5rem;
  padding-left:2rem;
  padding-right:2rem
+}
+
+.chat-announcement{
+ font-weight:bold
 }
 
 #settings-popup{
