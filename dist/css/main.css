@@ -169,7 +169,8 @@ textarea,input{
 }
 
 .chat-text{
- padding-left:.5rem;
+ font-size:1.5rem;
+ padding-left:.5rem
 }
 
 .chat-input{
@@ -393,6 +394,10 @@ button.flat.important:active{
  overflow-x:visible;
  padding:0.35rem 0.75rem;
  white-space:nowrap
+}
+
+#username-modal-subtitle>span{
+ font-size:inherit
 }
 
 #username-cancel,#keybindings-cancel{

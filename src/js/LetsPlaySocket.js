@@ -3,7 +3,13 @@ import LetsPlayProtocol from './LetsPlayProtocol.js'
 function LetsPlaySocket(wsURI, client) {
     var self = this;
 
-    var connectedEmu = 'emu1';
+    this.currentEmu = {
+        name: 'emu1',
+        maxMessageSize: undefined,
+        minUsernameLength: undefined,
+        maxUsernameLength: undefined
+    };
+
     var username = localStorage.getItem('username') || '';
     this.pendingValidation = false;
 
@@ -69,6 +75,14 @@ function LetsPlaySocket(wsURI, client) {
         client.appendMessage('', command[1] + ' is now known as ' + command[2] + '.', 'announcement');
     }
 
+    this.onEmuInfo = function(command) {
+        self.currentEmu.minUsernameLength = command[1];
+        self.currentEmu.maxUsernameLength = command[2];
+        self.currentEmu.maxMessageSize = command[3];
+
+        client.updateEmuInfo();
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
@@ -76,7 +90,7 @@ function LetsPlaySocket(wsURI, client) {
     rawSocket.onopen = function() {
         console.log('Connection opened');
         client.setUsername(localStorage.getItem('username'));
-        self.send('connect', connectedEmu);
+        self.send('connect', self.currentEmu.name);
     };
 
     rawSocket.onclose = function() {
@@ -119,6 +133,9 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "rename":
                     self.onRename(command);
+                    break;
+                case "emuinfo":
+                    self.onEmuInfo(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);
