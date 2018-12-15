@@ -126,6 +126,13 @@ function LetsPlayClient() {
         $('#user-list-title').children().first().text(s);
     };
 
+    this.updateEmuInfo = function() {
+        $('#minUsernameLength').text(socket.currentEmu.minUsernameLength);
+        $('#maxUsernameLength').text(socket.currentEmu.maxUsernameLength);
+
+        document.getElementById('chat-input-box').maxLength = socket.currentEmu.maxMessageSize;
+    };
+
     this.addUser = function(who) {
         self.onlineUsers.push(who);
         self.onlineUsers.sort();
