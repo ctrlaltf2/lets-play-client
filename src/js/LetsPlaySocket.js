@@ -83,6 +83,10 @@ function LetsPlaySocket(wsURI, client) {
         client.updateEmuInfo();
     }
 
+    this.onPing = function(command) {
+        self.send('pong');
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
@@ -136,6 +140,9 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "emuinfo":
                     self.onEmuInfo(command);
+                    break;
+                case "ping":
+                    self.onPing(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);
