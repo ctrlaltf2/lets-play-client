@@ -10,16 +10,19 @@ function Display() {
 
     var trueWidth = -1,
         trueHeight = -1;
+
+    var canvas = document.getElementById('screen');
+    var ctx = canvas.getContext('2d');
+
     this.update = function(imgdata) {
-        let bytearray = new Uint8Array(imgdata);
+        var bytearray = new Uint8Array(imgdata);
         var binstr = Array.prototype.map.call(bytearray, function (ch) {
             return String.fromCharCode(ch);
         }).join('');
-        let b64encoded = btoa(binstr);
+        var b64encoded = btoa(binstr);
 
         let image = new Image();
         image.addEventListener('load', function() {
-            let canvas = document.getElementById('screen');
             if (canvas.getContext) {
                 if(trueWidth != image.width || trueHeight != image.height) {
                     trueWidth = image.width;
@@ -39,7 +42,6 @@ function Display() {
                     document.getElementById('screen').style.height = newHeight + 'px !important';
                     document.getElementById('screen').style.width = newWidth + 'px !important';
                 }
-                let ctx = canvas.getContext('2d');
                 ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
