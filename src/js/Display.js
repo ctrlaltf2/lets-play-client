@@ -1,18 +1,16 @@
 function Display() {
-    let screen = document.getElementById('screen');
-    let ctx = screen.getContext('2d');
+    var trueWidth = -1,
+        trueHeight = -1;
+
+    var canvas = document.getElementById('screen');
+    var ctx = canvas.getContext('2d');
+
     ctx.imageSmoothingEnabled = false;
     ctx.mozImageSmoothingEnabled = false;
     ctx.oImageSmoothingEnabled = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
-
-    var trueWidth = -1,
-        trueHeight = -1;
-
-    var canvas = document.getElementById('screen');
-    var ctx = canvas.getContext('2d');
 
     this.update = function(imgdata) {
         var bytearray = new Uint8Array(imgdata);
