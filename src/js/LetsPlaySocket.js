@@ -7,7 +7,8 @@ function LetsPlaySocket(wsURI, client) {
         name: 'emu1',
         maxMessageSize: undefined,
         minUsernameLength: undefined,
-        maxUsernameLength: undefined
+        maxUsernameLength: undefined,
+        turnLength: undefined // ms
     };
 
     var username = localStorage.getItem('username') || '';
@@ -20,6 +21,7 @@ function LetsPlaySocket(wsURI, client) {
             rawSocket.send(message);
         }
     };
+
     /**
      * Function called when the server emits a chat command. Updates the chat list in the html to the new content after unescaping unicode and hex sequences in the message.
      */
@@ -79,6 +81,7 @@ function LetsPlaySocket(wsURI, client) {
         self.currentEmu.minUsernameLength = command[1];
         self.currentEmu.maxUsernameLength = command[2];
         self.currentEmu.maxMessageSize = command[3];
+        self.currentEmu.turnLength = command[4];
 
         client.updateEmuInfo();
     }

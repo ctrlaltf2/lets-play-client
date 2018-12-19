@@ -12,8 +12,17 @@ function LetsPlayClient() {
     var connection = this.connection;
     var socket;
 
-    // List of strings for who's online
+    /**
+     * List of strings for who's online
+     * @type {string[]}
+     */
     this.onlineUsers = [];
+
+    /**
+     * Bool for whether or not the user has a turn (prevents accidental button sends or keyboard key captures). Whether or not the user *actually* has a turn and can control the emulator is determined by the server.
+     * @type {boolean}
+     */
+    this.hasTurn = false;
 
     // Add a new message to the chat
     this.appendMessage = function(who, message, type="chat") {
@@ -33,13 +42,10 @@ function LetsPlayClient() {
                 .appendTo('#chat-list-items');
                 break;
         }
-        // Append a message to the chat log
-
         // Set scroll to bottom
         let chat_list = document.getElementById('chat-list-items');
         chat_list.scrollTop = chat_list.scrollHeight;
     };
-
 
     this.sendChatboxContent = function() {
         socket.send('chat',
@@ -58,7 +64,6 @@ function LetsPlayClient() {
 
     this.showModal = function(DOMSelector) {
         let jElem = $(DOMSelector);
-        console.log(jElem);
         jElem.css('opacity', '0');
         jElem.addClass('modal-active');
         // Firefox doesn't animate this right if there's no delay (chromium is the same way, but the setTimeout can be set to 1)
@@ -66,7 +71,6 @@ function LetsPlayClient() {
             jElem.css('opacity', '100');
         }, 10);
     };
-
 
     this.updateSocket = function(newSocket) {
         self.connection = newSocket.socket;
@@ -85,12 +89,10 @@ function LetsPlayClient() {
         }, 900);
     };
 
-
     this.validUsername = function(newUsername) {
         localStorage.setItem('username', newUsername);
         self.hideModal('.modal-active');
     };
-
 
     this.setUsername = function(newUsername) {
         console.log('setUsername');
@@ -149,7 +151,6 @@ function LetsPlayClient() {
             self.onlineUsers[i] = toWhat;
         self.updateUserList(self.onlineUsers);
     };
-
 
     // When outside box of modal is clicked, close it
     $(document).on("click", ".modal", e => {
