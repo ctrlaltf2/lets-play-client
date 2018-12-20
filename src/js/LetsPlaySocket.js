@@ -36,7 +36,7 @@ function LetsPlaySocket(wsURI, client) {
      * Function called when the server emits a list command.
      */
     this.onList = function(command) {
-        client.updateUserList(command.slice(1));
+        client.updateOnlineUsers(command.slice(1));
     };
 
     /**
@@ -88,6 +88,10 @@ function LetsPlaySocket(wsURI, client) {
 
     this.onPing = function(command) {
         self.send('pong');
+    }
+
+    this.onTurns = function(command) {
+        client.updateTurnList(command.slice(1));
     }
 
     var rawSocket = new WebSocket(wsURI);
@@ -146,6 +150,9 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "ping":
                     self.onPing(command);
+                    break;
+                case "turns":
+                    self.onTurns(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);

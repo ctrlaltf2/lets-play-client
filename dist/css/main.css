@@ -417,6 +417,10 @@ button.flat.important:active{
  padding-left:2rem
 }
 
+.turn{
+ font-weight:bold
+}
+
 #user-list-pane,#chat-pane{
  display:none
 }

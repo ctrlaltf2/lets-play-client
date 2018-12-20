@@ -13,10 +13,16 @@ function LetsPlayClient() {
     var socket;
 
     /**
-     * List of strings for who's online
+     * List of who's online.
      * @type {string[]}
      */
     this.onlineUsers = [];
+
+    /**
+     * Turn queue list.
+     * @type {string[]}
+     */
+    this.turnQueue = [];
 
     /**
      * Bool for whether or not the user has a turn (prevents accidental button sends or keyboard key captures). Whether or not the user *actually* has a turn and can control the emulator is determined by the server.
@@ -102,16 +108,42 @@ function LetsPlayClient() {
         }
     };
 
-    this.updateUserList = function(list) {
+    this.updateOnlineUsers = function(list) {
         self.onlineUsers = list.sort();
+        self.updateUserList();
+    }
+
+    this.updateTurnList = function(list) {
+        self.turnQueue = list;
+        self.appendMessage(self.turnQueue[0] + ' now has a turn.', 'announcement');
+
+        if(self.turnQueue[0] === localStorage.getItem('username'))
+            self.hasTurn = true;
+        else
+            self.hasTurn = false;
+
+        self.updateUserList();
+    }
+
+    this.updateUserList = function() {
         $('#user-list').empty();
-        for(let i in list) {
-            $(`<div class="user-list-item">
-                    <p>` + list[i] + `</p>
+        self.turnQueue.forEach(user => {
+            $(`<div class="user-list-item turn">
+                    <p>` + user + `</p>
                 </div>`).appendTo('#user-list');
-        }
+        });
+
+        self.onlineUsers.sort();
+        self.onlineUsers.forEach(user => {
+            if(self.turnQueue.indexOf(user) === -1) {
+                $(`<div class="user-list-item">
+                        <p>` + user + `</p>
+                    </div>`).appendTo('#user-list');
+            }
+        });
+
         self.updateUserCount();
-    };
+    }
 
     this.updateUserCount = function() {
         let count = self.onlineUsers.length,
@@ -138,18 +170,23 @@ function LetsPlayClient() {
     this.addUser = function(who) {
         self.onlineUsers.push(who);
         self.onlineUsers.sort();
-        self.updateUserList(self.onlineUsers);
+        self.updateOnlineUsers(self.onlineUsers);
     };
 
     this.removeUser = function(who) {
-        self.updateUserList(self.onlineUsers.filter(word => word !== who));
+        self.updateOnlineUsers(self.onlineUsers.filter(word => word !== who));
     };
 
     this.renameUser = function(who, toWhat) {
         let i = self.onlineUsers.indexOf(who);
         if(i !== -1)
             self.onlineUsers[i] = toWhat;
-        self.updateUserList(self.onlineUsers);
+
+        let j = self.turnQueue.indexOf(who);
+        if(j !== -1)
+            self.turnQueue[i] = toWhat;
+
+        self.updateUserlist();
     };
 
     // When outside box of modal is clicked, close it
@@ -203,6 +240,7 @@ function LetsPlayClient() {
     $('#send-btn').click(self.sendChatboxContent);
 
     document.getElementById('screen').onkeydown = e => {
+        if(!self.hasTurn) return;
         if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
             e.preventDefault();
             socket.send('button', 'down', Keyboard.keyAsRetroID[e.key] + '');
@@ -210,6 +248,7 @@ function LetsPlayClient() {
     };
 
     document.getElementById('screen').onkeyup = e => {
+        if(!self.hasTurn) return;
         if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
             e.preventDefault();
             socket.send('button', 'up', Keyboard.keyAsRetroID[e.key] + '');
