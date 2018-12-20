@@ -255,6 +255,11 @@ function LetsPlayClient() {
         }
     };
 
+    $('#screen').click(e => {
+        if(!self.hasTurn)
+            socket.send('turn');
+    });
+
     // Hide the settings dialogue if anything other than the navbar or settings dialogue is clicked
     document.getElementById('emu-view').onclick = function(e) {
         let target = e.srcElement || e.target;
