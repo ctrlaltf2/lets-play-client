@@ -30,20 +30,29 @@ function LetsPlayClient() {
      */
     this.hasTurn = false;
 
+    function escapeHtml(unsafe) {
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+     }
+
     // Add a new message to the chat
     this.appendMessage = function(who, message, type="chat") {
         switch(type) {
             case "chat":
                 $(` <div class="chat-item">
-                        <p class="username">` + who + `</p>
+                        <p class="username">` + escapeHtml(who) + `</p>
                         <p class="separator">:</p>
-                        <span class="chat-text">` + message + `</span>
+                        <span class="chat-text">` + escapeHtml(message) + `</span>
                     </div>`)
                     .appendTo('#chat-list-items');
                 break;
             case "announcement":
                 $(` <div class="chat-item">
-                        <span class="chat-announcement">` + message + `</span>
+                        <span class="chat-announcement">` + escapeHtml(message) + `</span>
                     </div>`)
                 .appendTo('#chat-list-items');
                 break;
@@ -116,7 +125,7 @@ function LetsPlayClient() {
         if(list.length > 0) {
             // If there was a change in who has a turn
             if(list[0] !== self.turnQueue[0])
-                self.appendMessage('', list[0] + ' now has a turn.', 'announcement');
+                self.appendMessage('', escapeHtml(list[0]) + ' now has a turn.', 'announcement');
 
             if(list[0] === localStorage.getItem('username')) {
                 self.hasTurn = true;
@@ -139,7 +148,7 @@ function LetsPlayClient() {
         $('#user-list').empty();
         self.turnQueue.forEach(user => {
             $(`<div class="user-list-item turn">
-                    <p>` + user + `</p>
+                    <p>` + escapeHtml(user) + `</p>
                 </div>`).appendTo('#user-list');
         });
 
@@ -147,7 +156,7 @@ function LetsPlayClient() {
         self.onlineUsers.forEach(user => {
             if(self.turnQueue.indexOf(user) === -1) {
                 $(`<div class="user-list-item">
-                        <p>` + user + `</p>
+                        <p>` + ecscapeHtml(user) + `</p>
                     </div>`).appendTo('#user-list');
             }
         });
