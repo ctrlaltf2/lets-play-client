@@ -101,7 +101,6 @@ function LetsPlayClient() {
     };
 
     this.setUsername = function(newUsername) {
-        console.log('setUsername');
         if(!socket.pendingValidation && socket.rawSocket.readyState === WebSocket.OPEN) {
             socket.pendingValidation = true;
             socket.send('username', newUsername);
@@ -114,13 +113,24 @@ function LetsPlayClient() {
     }
 
     this.updateTurnList = function(list) {
-        self.turnQueue = list;
-        self.appendMessage(self.turnQueue[0] + ' now has a turn.', 'announcement');
+        if(list.length > 0) {
+            // If there was a change in who has a turn
+            if(list[0] !== self.turnQueue[0])
+                self.appendMessage('', list[0] + ' now has a turn.', 'announcement');
 
-        if(self.turnQueue[0] === localStorage.getItem('username'))
-            self.hasTurn = true;
-        else
+            if(list[0] === localStorage.getItem('username')) {
+                self.hasTurn = true;
+                $('#screen').addClass('turn');
+            } else {
+                self.hasTurn = false;
+                $('#screen').removeClass('turn');
+            }
+        } else {
             self.hasTurn = false;
+            $('#screen').removeClass('turn');
+        }
+
+        self.turnQueue = list;
 
         self.updateUserList();
     }
@@ -186,7 +196,7 @@ function LetsPlayClient() {
         if(j !== -1)
             self.turnQueue[i] = toWhat;
 
-        self.updateUserlist();
+        self.updateUserList();
     };
 
     // When outside box of modal is clicked, close it
