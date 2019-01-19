@@ -156,7 +156,7 @@ function LetsPlayClient() {
         self.onlineUsers.forEach(user => {
             if(self.turnQueue.indexOf(user) === -1) {
                 $(`<div class="user-list-item">
-                        <p>` + ecscapeHtml(user) + `</p>
+                        <p>` + escapeHtml(user) + `</p>
                     </div>`).appendTo('#user-list');
             }
         });
