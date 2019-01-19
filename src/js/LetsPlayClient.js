@@ -125,7 +125,7 @@ function LetsPlayClient() {
         if(list.length > 0) {
             // If there was a change in who has a turn
             if(list[0] !== self.turnQueue[0])
-                self.appendMessage('', escapeHtml(list[0]) + ' now has a turn.', 'announcement');
+                self.appendMessage('', list[0] + ' now has a turn.', 'announcement');
 
             if(list[0] === localStorage.getItem('username')) {
                 self.hasTurn = true;
