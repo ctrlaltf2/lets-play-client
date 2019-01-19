@@ -448,6 +448,12 @@ button.flat.important:active{
  padding-top:1rem
 }
 
+#screen.turn{
+-webkit-box-shadow:0px 0px 5px 1px rgba(0,0,0,0.75);
+-moz-box-shadow:0px 0px 5px 1px rgba(0,0,0,0.75);
+ box-shadow:0px 0px 5px 1px rgba(0,0,0,0.75)
+}
+
 .p-relative{position:relative !important}
 .d-block{display:block !important}
 .d-flex{display:flex !important}
