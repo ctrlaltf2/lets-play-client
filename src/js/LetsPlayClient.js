@@ -184,6 +184,8 @@ function LetsPlayClient() {
         $('#maxUsernameLength').text(socket.currentEmu.maxUsernameLength);
 
         document.getElementById('chat-input-box').maxLength = socket.currentEmu.maxMessageSize;
+
+        $('#room-info').text(socket.currentEmu.name);
     };
 
     this.addUser = function(who) {
