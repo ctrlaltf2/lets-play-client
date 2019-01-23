@@ -160,6 +160,29 @@ function LetsPlaySocket(wsURI, client) {
             }
         }
     };
+
+    // gamepadButtonRelease -- Button released
+    // gamepadButtonPress -- Button pressed
+    // gamepadAxesUpdate -- Axes changed
+    window.addEventListener('gamepadButtonRelease', function(evt) {
+        console.log('release', evt.detail.button);
+        client.appendMessage('[GamepadAPI]', 'release ' + evt.detail.button, 'announcement');
+        self.send('button', 'up', evt.detail.button);
+    });
+
+    window.addEventListener('gamepadButtonPress', function(evt) {
+        console.log('press', evt.detail.button);
+        client.appendMessage('[GamepadAPI]', 'press ' + evt.detail.button, 'announcement');
+        self.send('button', 'down', evt.detail.button);
+    });
+
+    window.addEventListener('gamepadAxesUpdate', function(evt) {
+        client.appendMessage('[GamepadAPI]', 'analog ' + evt.detail.axes + ' ' + evt.detail.value.old + ' -> ' + evt.detail.value.new, 'announcement');
+        // TODO: Send analog values
+        // button, axes, buttonID, value (int16 value, +-32768?)
+        // Check if cores translate analog button values correctly or if own algorithm has to be implememted (advanced settings checkbox thing?)
+    });
+
 }
 
 export default LetsPlaySocket;
