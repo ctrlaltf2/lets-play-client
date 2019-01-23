@@ -81,7 +81,8 @@ function LetsPlaySocket(wsURI, client) {
         self.currentEmu.minUsernameLength = command[1];
         self.currentEmu.maxUsernameLength = command[2];
         self.currentEmu.maxMessageSize = command[3];
-        self.currentEmu.turnLength = command[4];
+        // self.currentEmu.turnLength = command[4];
+        self.currentEmu.name = command[4];
 
         client.updateEmuInfo();
     }
