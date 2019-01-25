@@ -1,11 +1,21 @@
 import Keyboard from './Keyboard.js'
 import Display from './Display.js'
+import KeybindModal from './KeybindModal.js'
+import LetsPlayConfig from './LetsPlayConfig.js'
+import GamepadManager from './GamepadManager.js'
 
 function LetsPlayClient() {
     var self = this;
 
     // Initialize the display
     this.display = new Display();
+
+    // Initialize the keybind modal
+    this.keybindModal = new KeybindModal(self);
+
+    this.config = new LetsPlayConfig();
+
+    this.gamepadManager = new GamepadManager(self);
 
     // JS implicit object reference magic
     this.connection = {};
@@ -29,6 +39,7 @@ function LetsPlayClient() {
      * @type {boolean}
      */
     this.hasTurn = false;
+
 
     function escapeHtml(unsafe) {
         return unsafe
@@ -75,6 +86,13 @@ function LetsPlayClient() {
             jElem.removeClass('modal-active');
             jElem.css('opacity', '');
         }, 200);
+
+        console.log(jElem);
+        if(jElem[0].id === 'keybind-modal') {
+            self.keybindModal.stopListen();
+            $('#keybindings-prompt').addClass('d-hidden');
+            $('#keybindings-content').removeClass('d-hidden');
+        }
     };
 
     this.showModal = function(DOMSelector) {
@@ -85,6 +103,11 @@ function LetsPlayClient() {
         setTimeout(function() {
             jElem.css('opacity', '100');
         }, 10);
+
+        if(jElem[0].id === 'keybind-modal') {
+            $('#keybindings-content').addClass('d-hidden');
+            $('#keybindings-prompt').removeClass('d-hidden');
+        }
     };
 
     this.updateSocket = function(newSocket) {
@@ -210,11 +233,40 @@ function LetsPlayClient() {
         self.updateUserList();
     };
 
+    this.displayBindings = function(deviceID) {
+        $('#keybindings-prompt').addClass('d-hidden');
+        $('#keybindings-content').removeClass('d-hidden');
+
+        var currentLayout = self.gamepadManager.getLayout(deviceID);
+
+        let buttonBinds = currentLayout.buttons;
+
+        $('#keybinding-binds').empty();
+        $('#keybinding-binds').append('<b>Binding</b>');
+        for(let i in buttonBinds) {
+            let buttonName = buttonBinds[i].name;
+            var bindText;
+
+            if(buttonBinds[i].deviceValue === undefined)
+                bindText = '(unmapped)';
+            else if(deviceID !== 'keyboard')
+                bindText = 'Button ' + buttonBinds[i].deviceValue;
+            else
+                bindText = buttonBinds[i].deviceValue;
+
+            $('#keybinding-binds').append('<div id="' + buttonName + '" class="press-a-key">' + bindText + '</div>');
+        };
+
+        $('.press-a-key').click(e => {
+            self.keybindModal.configuringButton = e.target.id;
+        });
+    }
+
     // When outside box of modal is clicked, close it
     $(document).on("click", ".modal", e => {
         let target = $(e.target || e.srcElement);
         if (target.is(".modal")) {
-            self.hideModal('.modal');
+            self.hideModal('.modal-active');
         }
     });
 
@@ -225,6 +277,7 @@ function LetsPlayClient() {
     });
 
     $('#keybindings-cancel,#username-cancel').click(() => {
+        self.keybindModal.stopListen();
         self.hideModal('.modal-active');
     });
 
@@ -238,6 +291,7 @@ function LetsPlayClient() {
     });
 
     $('#settings-keybindings').click(e => {
+        self.keybindModal.startListen();
         self.showModal('#keybind-modal');
     });
 
