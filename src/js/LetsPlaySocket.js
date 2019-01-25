@@ -1,4 +1,5 @@
 import LetsPlayProtocol from './LetsPlayProtocol.js'
+import RetroJoypad from './RetroJoypad.js'
 
 function LetsPlaySocket(wsURI, client) {
     var self = this;
@@ -165,15 +166,46 @@ function LetsPlaySocket(wsURI, client) {
     // gamepadButtonPress -- Button pressed
     // gamepadAxesUpdate -- Axes changed
     window.addEventListener('gamepadButtonRelease', function(evt) {
+        if(client.keybindModal.listening)
+            return;
+
+        let layout = client.gamepadManager.getLayout(evt.detail.id);
+        console.log(layout, evt.detail.id);
+
+        let buttonName;
+        for(let i in layout.buttons) {
+            if(layout.buttons[i].deviceValue === evt.detail.button) {
+                buttonName = layout.buttons[i].name;
+                break;
+            }
+        }
+
+        let retroID = RetroJoypad[buttonName] + '';
+
         console.log('release', evt.detail.button);
-        client.appendMessage('[GamepadAPI]', 'release ' + evt.detail.button, 'announcement');
-        self.send('button', 'up', evt.detail.button);
+        client.appendMessage('[GamepadAPI]', 'release ' + buttonName, 'announcement');
+        self.send('button', 'up', retroID);
     });
 
     window.addEventListener('gamepadButtonPress', function(evt) {
+        if(client.keybindModal.listening)
+            return;
+
+        let layout = client.gamepadManager.getLayout(evt.detail.id);
+
+        let buttonName;
+        for(let i in layout.buttons) {
+            if(layout.buttons[i].deviceValue === evt.detail.button) {
+                buttonName = layout.buttons[i].name;
+                break;
+            }
+        }
+
+        let retroID = RetroJoypad[buttonName] + '';
+
         console.log('press', evt.detail.button);
-        client.appendMessage('[GamepadAPI]', 'press ' + evt.detail.button, 'announcement');
-        self.send('button', 'down', evt.detail.button);
+        client.appendMessage('[GamepadAPI]', 'press ' + buttonName, 'announcement');
+        self.send('button', 'down', retroID);
     });
 
     window.addEventListener('gamepadAxesUpdate', function(evt) {

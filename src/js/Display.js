@@ -19,7 +19,7 @@ function Display() {
         }).join('');
         var b64encoded = btoa(binstr);
 
-        let image = new Image();
+        var image = new Image();
         image.addEventListener('load', function() {
             if (canvas.getContext) {
                 if(trueWidth != image.width || trueHeight != image.height) {

@@ -7,7 +7,7 @@ import RetroJoypad from './RetroJoypad.js'
  */
 const analogThreshold = 0.2;
 
-function GamepadManager() {
+function GamepadManager(client) {
     var self = this;
 
     /**
@@ -42,22 +42,21 @@ function GamepadManager() {
             self.controllerStates[evt.gamepad.id] = self.controllerStates['standard'];
         } else if(self.controllerStates[evt.gamepad.id] === undefined) { // Fallback on known controllerStates
             // Unknown controller, tell the user that it will need mapped
-            console.log("Unknown controller plugged in. Please map it using the keybindings menu.");
+            client.appendMessage('', 'Unknown controller plugged in. Please map it using the keybindings menu.', 'announcement');
         }
         self.pollInput(evt.gamepad.index);
     };
 
-    window.addEventListener("gamepadconnected", this.onConnect);
+    window.addEventListener('gamepadconnected', this.onConnect);
 
     /**
      * Callback registered for when a gamepad is disconnected.
     */
     this.onDisconnect = function(evt) {
-        console.log("d/c");
         cancelAnimationFrame(self.pollInputIDs[evt.gamepad.id]);
     };
 
-    window.addEventListener("gamepaddisconnected", this.onDisconnect);
+    window.addEventListener('gamepaddisconnected', this.onDisconnect);
 
     /**
      * Main polling loop function that fires button press events
@@ -137,5 +136,41 @@ function GamepadManager() {
 
         self.pollInputIDs[gamepad.id] = requestAnimationFrame(self.pollInput.bind(self.pollInput, index));
     };
+
+    // Button order reflects order of buttons in internal layout objects and in the keybindings modal
+    this.buttonOrder = 'B A X Y Up Down Left Right L R L2 R2 L3 R3 Start Select Turn'.split(' ');
+
+    const blankLayout = function() {
+        var layout = {};
+
+        layout.buttons = new Array(self.buttonOrder.length).fill({});
+
+        for(var i in self.buttonOrder)
+            layout.buttons[i] = {
+                name: self.buttonOrder[i],
+                deviceValue: undefined
+            }
+
+        return layout;
+    }();
+
+    this.updateLayout = function() {
+        this.controllerLayouts = client.config.layout;
+    }
+
+    this.getLayout = function(deviceID) {
+        client.config.reload();
+        if(client.config.layout[deviceID])
+            return client.config.layout[deviceID];
+        else
+            return blankLayout;
+    }
+
+    this.setLayout = function(deviceID, layout) {
+        client.config.layout[deviceID] = layout;
+        client.config.save();
+        self.updateLayout();
+    }
+
 }
 export default GamepadManager;

@@ -333,9 +333,26 @@ button.flat.important:active{
  padding-top:0.5rem
 }
 
+#keybind-modal>.modal-box{
+ margin: 7rem 45rem !important
+}
+
+.keybindings-column{
+ margin-left: 1rem;
+ margin-right: 1rem
+}
+
 .keybindings-column>b{
  font-weight:bold;
  font-size:1.5rem
+}
+
+.keybinding-prompt-text {
+ animation: flash-gray 1.5s ease-in-out infinite;
+ margin-left:auto;
+ margin-right:auto;
+ font-size:2.5rem;
+ color:#828282
 }
 
 #keybindings-content{

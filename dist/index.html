@@ -29,13 +29,16 @@
                     </footer>
                 </div>
             </div>
-            <div id="keybind-modal" class="modal modal-active fade-in-out">
+            <div id="keybind-modal" class="modal fade-in-out">
                 <div class="modal-box slide-in-fwd-center" tabindex="1">
                     <header class="modal-header">
                         <h4 class="modal-title">Keybindings</h4>
-                        <p class="modal-subtitle">If your gamepad isn't supported by default, or you'd like to remap the keyboard keys, controls can be changed here. The button layout is based on the SNES controller if it had triggers (L2 R2) and joysticks.</p>
+                        <p class="modal-subtitle">If your gamepad isn't supported by default, or you'd like to remap the keyboard keys, controls can be changed here.</p>
                     </header>
-                    <section id="keybindings-content" class="modal-content d-flex flex-row">
+                    <section id="keybindings-prompt" class="modal-content">
+                        <p class="keybinding-prompt-text ">{Press a button on the device you'd like to configure}</p>
+                    </section>
+                    <section id="keybindings-content" class="modal-content d-flex flex-row d-hidden">
                         <div id="keybinding-buttons" class="keybindings-column d-flex flex-column">
                             <b>Button</b>
                             <p>B</p>
@@ -54,48 +57,10 @@
                             <p>R3</p>
                             <p>Start</p>
                             <p>Select</p>
-                            <p>Home Button</p>
+                            <p>Take Turn</p>
                         </div>
-                        <div id="keybinding-keys" class="keybindings-column d-flex flex-column">
-                            <b>Keyboard Binding</b>
-                            <div id="key-b" class="press-a-key">X</div>
-                            <div id="key-a" class="press-a-key">C</div>
-                            <div id="key-x" class="press-a-key">S</div>
-                            <div id="key-y" class="press-a-key">A</div>
-                            <div id="key-up" class="press-a-key">ArrowUp</div>
-                            <div id="key-down" class="press-a-key">ArrowDown</div>
-                            <div id="key-left" class="press-a-key">ArrowLeft</div>
-                            <div id="key-right" class="press-a-key">ArrowRight</div>
-
-                            <div id="key-l" class="press-a-key">W</div>
-                            <div id="key-r" class="press-a-key">D</div>
-                            <div id="key-l2" class="press-a-key">2</div>
-                            <div id="key-r2" class="press-a-key">F</div>
-                            <div id="key-l3" class="press-a-key">Q</div>
-                            <div id="key-r3" class="press-a-key">V</div>
-                            <div id="key-start" class="press-a-key">Enter</div>
-                            <div id="key-select" class="press-a-key">Tab</div>
-                            <div id="key-home" class="press-a-key">E</div>
-                        </div>
-                        <div id="keybinding-gamepad" class="keybindings-column d-flex flex-column">
-                            <b>Gamepad Binding</b>
-                            <div id="btn-b" class="press-a-key">Button 0</div>
-                            <div id="btn-a" class="press-a-key">Button 1</div>
-                            <div id="btn-x" class="press-a-key">Button 3</div>
-                            <div id="btn-y" class="press-a-key">Button 2</div>
-                            <div id="btn-up" class="press-a-key">Button 12</div>
-                            <div id="btn-down" class="press-a-key">Button 13</div>
-                            <div id="btn-left" class="press-a-key">Button 14</div>
-                            <div id="btn-right" class="press-a-key">Button 15</div>
-                            <div id="btn-l" class="press-a-key">Button 4</div>
-                            <div id="btn-r" class="press-a-key">Button 5</div>
-                            <div id="btn-l2" class="press-a-key">Button 6</div>
-                            <div id="btn-r2" class="press-a-key">Button 7</div>
-                            <div id="btn-l3" class="press-a-key">Button 10</div>
-                            <div id="btn-r3" class="press-a-key">Button 11</div>
-                            <div id="btn-start" class="press-a-key">Button 8</div>
-                            <div id="btn-select" class="press-a-key">Button 9</div>
-                            <div id="btn-home" class="press-a-key">Button 16</div>
+                        <div id="keybinding-binds" class="keybindings-column d-flex flex-column">
+                            <b>Binding</b>
                         </div>
                     </section>
                     <footer class="modal-footer">
