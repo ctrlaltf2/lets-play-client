@@ -23,9 +23,12 @@ function KeybindModal(client) {
     }
 
     this.stopListen = function() {
-        client.gamepadManager.setLayout(self.configuringDevice, self.unsavedLayout);
         self.configuringDevice = self.configuringButton = self.unsavedLayout = undefined;
         self.listening = false;
+    }
+
+    this.saveLayout = function() {
+        client.gamepadManager.setLayout(self.configuringDevice, self.unsavedLayout);
     }
 
     window.addEventListener('gamepadButtonPress', function(evt) {
@@ -34,14 +37,12 @@ function KeybindModal(client) {
 
         if(self.configuringDevice === undefined) { // Waiting for a button press to select device
             self.configuringDevice = evt.detail.id;
-            // Tell client to display keybindings
+
+            // Tell client to update the modal and pull layout for that device and display it
             client.displayBindings(evt.detail.id);
+
+            // Update unsaved layout
             self.unsavedLayout = client.gamepadManager.getLayout(evt.detail.id);
-            // Client will pull from config the button layout for the device being configured
-            ;
-            // Client will populate the button text with the button id/key name
-            ;
-            // Finally, exit this event thing
             return;
         }
 
