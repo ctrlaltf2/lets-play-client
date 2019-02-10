@@ -13,7 +13,6 @@ function Display() {
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
     this.update = function(imgdata) {
-        var bytes = new Uint8Array(imgdata);
         var image = new Image();
         image.addEventListener('load', function() {
             if (canvas.getContext) {
@@ -40,7 +39,7 @@ function Display() {
             }
         });
 
-        var blob = new Blob([bytes.buffer], {type: 'image/jpeg'});
+        var blob = new Blob([imgdata], {type: 'image/jpeg'});
         image.src = URL.createObjectURL(blob);
     }
 
