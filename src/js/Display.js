@@ -14,12 +14,6 @@ function Display() {
 
     this.update = function(imgdata) {
         var bytes = new Uint8Array(imgdata);
-        /*
-        var binstr = Array.prototype.map.call(bytearray, function (ch) {
-            return String.fromCharCode(ch);
-        }).join('');
-        var b64encoded = btoa(binstr);*/
-
         var image = new Image();
         image.addEventListener('load', function() {
             if (canvas.getContext) {
