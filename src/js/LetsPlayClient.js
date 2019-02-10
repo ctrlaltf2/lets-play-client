@@ -276,13 +276,23 @@ function LetsPlayClient() {
         }
     });
 
-    $('#keybindings-cancel,#username-cancel').click(() => {
+    $('#username-cancel').click(() => {
+        self.hideModal('#username-modal');
+    });
+
+    $('#keybindings-cancel').click(() => {
         self.keybindModal.stopListen();
-        self.hideModal('.modal-active');
+        self.hideModal('#keybind-modal');
     });
 
     $('#username-submit').click(() => {
         self.setUsername($('#username-input').val());
+    });
+
+    $('#keybindings-submit').click(() => {
+        self.keybindModal.saveLayout();
+        self.keybindModal.stopListen();
+        self.hideModal('#keybind-modal');
     });
 
     $('#settings-username').click(() => {
