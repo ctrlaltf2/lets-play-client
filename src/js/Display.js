@@ -13,11 +13,12 @@ function Display() {
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
     this.update = function(imgdata) {
-        var bytearray = new Uint8Array(imgdata);
+        var bytes = new Uint8Array(imgdata);
+        /*
         var binstr = Array.prototype.map.call(bytearray, function (ch) {
             return String.fromCharCode(ch);
         }).join('');
-        var b64encoded = btoa(binstr);
+        var b64encoded = btoa(binstr);*/
 
         var image = new Image();
         image.addEventListener('load', function() {
@@ -44,7 +45,9 @@ function Display() {
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
         });
-        image.src = 'data:image/jpeg;base64,' + b64encoded;
+
+        var blob = new Blob([bytes.buffer], {type: 'image/jpeg'});
+        image.src = URL.createObjectURL(blob);
     }
 
     this.drawSMPTEBars = function(canvas, ctx) {
