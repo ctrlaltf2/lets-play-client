@@ -70,9 +70,9 @@ function KeybindModal(client) {
             self.configuringDevice = 'keyboard';
             // Tell client to display keybindings
             client.displayBindings('keyboard');
-            // Client will pull from localStorage the button layout for the device being configured
-            // Client will populate the button text with the button id/key name
-            // Finally, exit this event thing
+
+            // Update unsaved layout
+            self.unsavedLayout = client.gamepadManager.getLayout(evt.detail.id);
             return;
         }
 
