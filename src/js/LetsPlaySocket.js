@@ -215,6 +215,33 @@ function LetsPlaySocket(wsURI, client) {
         // Check if cores translate analog button values correctly or if own algorithm has to be implememted (advanced settings checkbox thing?)
     });
 
+    // Keyboard based game inputs
+    function keyboardHandler(action /* up or down */, evt) {
+        if(client.keybindModal.listening)
+            return;
+
+        if(!client.hasTurn)
+            return;
+            
+        let layout = client.gamepadManager.getLayout('keyboard');
+
+        let buttonName;
+        let keyID = evt.key || evt.keyCode || evt.which;
+        for(let i in layout.buttons) {
+            if(layout.buttons[i].deviceValue === keyID) {
+                buttonName = layout.buttons[i].name;
+                break;
+            }
+        }
+
+        let retroID = RetroJoypad[buttonName] + '';
+
+        client.appendMessage('[GamepadAPI]', 'key ' + action + ' ' + buttonName, 'announcement');
+        self.send('button', action, retroID);
+    }
+
+    document.getElementById('screen').onkeydown = keyboardHandler.bind('down');
+    document.getElementById('screen').onkeyup = keyboardHandler.bind('up');
 }
 
 export default LetsPlaySocket;

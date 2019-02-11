@@ -324,22 +324,6 @@ function LetsPlayClient() {
     // Send chatbox contents on send button click
     $('#send-btn').click(self.sendChatboxContent);
 
-    document.getElementById('screen').onkeydown = e => {
-        if(!self.hasTurn) return;
-        if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
-            e.preventDefault();
-            socket.send('button', 'down', Keyboard.keyAsRetroID[e.key] + '');
-        }
-    };
-
-    document.getElementById('screen').onkeyup = e => {
-        if(!self.hasTurn) return;
-        if(Keyboard.keyAsRetroID[e.key] !== undefined && !e.repeat) {
-            e.preventDefault();
-            socket.send('button', 'up', Keyboard.keyAsRetroID[e.key] + '');
-        }
-    };
-
     $('#screen').click(e => {
         if(!self.hasTurn)
             socket.send('turn');

@@ -76,33 +76,20 @@ function KeybindModal(client) {
             return;
         }
 
-        if(self.configuringButton !== undefined) {
-
-        }
-
-        if(evt.detail.id !== self.configuringDevice)
+        if(self.configuringDevice !== 'keyboard')
             return;
 
+        if(self.configuringButton !== undefined) {
+            $('#' + self.configuringButton).text(evt.key || evt.keyCode || evt.which);
+            // Update localStorage keybindings
+            for(let i in self.unsavedLayout.buttons) {
+                if(self.unsavedLayout.buttons[i].name === self.configuringButton) {
+                    self.unsavedLayout.buttons[i].deviceValue = evt.key || evt.keyCode || evt.which;
+                }
+            }
+            self.configuringButton = undefined;
+        }
     });
-
-    // Pull config for that device from localStorage
-
-    // Set internal value that says we are configuring a specific device
-
-    // On press-a-key press, update internal value that says which key we are changing
-
-    // controller layouts are as such:
-    /* 'gamepad ID' {
-     *      buttons: {
-     *          RetroJoypad['Value']: Device ID
-     *      },
-     *      axes: {
-     *          // To be implemented
-     *      }
-     * }
-     */
-
-    // Once a key is pressed on the device we are configuring, update its config value and save to localStorage. Notify gm that there was an update and that it should pull it.
 }
 
 export default KeybindModal;

@@ -1,20 +1,59 @@
 import RetroJoypad from './RetroJoypad.js'
 
-var Keyboard = {
-    keyAsRetroID: {
-        'x':            RetroJoypad['B'],
-        'c':            RetroJoypad['A'],
-        's':            RetroJoypad['X'],
-        'a':            RetroJoypad['Y'],
-        'ArrowUp':      RetroJoypad['Up'],
-        'ArrowDown':    RetroJoypad['Down'],
-        'ArrowLeft':    RetroJoypad['Left'],
-        'ArrowRight':   RetroJoypad['Right'],
-        'Tab':          RetroJoypad['Select'],
-        'Enter':        RetroJoypad['Start'],
-        'q':            RetroJoypad['L'],
-        'e':            RetroJoypad['R']
-    }
+const KeyboardDefaults = {
+    buttons: [
+        {
+            name: 'B',
+            deviceValue: 'x'
+        },
+        {
+            name: 'A',
+            deviceValue: 'c'
+        },
+        {
+            name: 'X',
+            deviceValue: 's'
+        },
+        {
+            name: 'Y',
+            deviceValue: 'a'
+        },
+        {
+            name: 'Up',
+            deviceValue: 'ArrowUp'
+        },
+        {
+            name: 'Down',
+            deviceValue: 'ArrowDown'
+        },
+        {
+            name: 'Left',
+            deviceValue: 'ArrowLeft'
+        },
+        {
+            name: 'Right',
+            deviceValue: 'ArrowRight'
+        },
+        {
+            name: 'Select',
+            deviceValue: 'Tab'
+        },
+        {
+            name: 'Start',
+            deviceValue: 'Enter'
+        },
+        {
+            name: 'L',
+            deviceValue: 'q'
+        },
+        {
+            name: 'R',
+            deviceValue: 'e'
+        }
+    ],
+    axes: [
+
+    ]
 };
 
-export default Keyboard;
+export default KeyboardDefaults;
