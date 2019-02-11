@@ -72,7 +72,7 @@ function KeybindModal(client) {
             client.displayBindings('keyboard');
 
             // Update unsaved layout
-            self.unsavedLayout = client.gamepadManager.getLayout(evt.detail.id);
+            self.unsavedLayout = client.gamepadManager.getLayout('keyboard');
             return;
         }
 
