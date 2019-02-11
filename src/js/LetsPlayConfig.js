@@ -1,3 +1,5 @@
+import KeyboardDefaults from './Keyboard.js'
+
 function LetsPlayConfig() {
     var self = this;
 
@@ -33,6 +35,7 @@ function LetsPlayConfig() {
         };*/
 
     this.layout = JSON.parse(localStorage.getItem('layouts') || '{}');
+    this.layout['keyboard'] = this.layout['keyboard'] || KeyboardDefaults;
 
     this.reload = function() {
         self.layout = JSON.parse(localStorage.getItem('layouts') || '{}');
