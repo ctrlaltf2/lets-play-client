@@ -4,43 +4,35 @@ const KeyboardDefaults = {
     buttons: [
         {
             name: 'B',
-            deviceValue: 'x'
+            deviceValue: 'k'
         },
         {
             name: 'A',
-            deviceValue: 'c'
+            deviceValue: 'l'
         },
         {
             name: 'X',
-            deviceValue: 's'
+            deviceValue: 'i'
         },
         {
             name: 'Y',
-            deviceValue: 'a'
+            deviceValue: 'j'
         },
         {
             name: 'Up',
-            deviceValue: 'ArrowUp'
+            deviceValue: 'w'
         },
         {
             name: 'Down',
-            deviceValue: 'ArrowDown'
+            deviceValue: 's'
         },
         {
             name: 'Left',
-            deviceValue: 'ArrowLeft'
+            deviceValue: 'a'
         },
         {
             name: 'Right',
-            deviceValue: 'ArrowRight'
-        },
-        {
-            name: 'Select',
-            deviceValue: 'Tab'
-        },
-        {
-            name: 'Start',
-            deviceValue: 'Enter'
+            deviceValue: 'd'
         },
         {
             name: 'L',
@@ -49,7 +41,32 @@ const KeyboardDefaults = {
         {
             name: 'R',
             deviceValue: 'e'
+        },
+        {
+            name: 'L2',
+            deviceValue: '1'
+        },
+        {
+            name: 'R2',
+            deviceValue: '3'
+        },
+        {
+            name: 'L3',
+            deviceValue: undefined
+        },
+        {
+            name: 'R3',
+            deviceValue: undefined
+        },
+        {
+            name: 'Select',
+            deviceValue: 'Tab'
+        },
+        {
+            name: 'Start',
+            deviceValue: 'Enter'
         }
+
     ],
     axes: [
 

@@ -216,13 +216,18 @@ function LetsPlaySocket(wsURI, client) {
     });
 
     // Keyboard based game inputs
-    function keyboardHandler(action /* up or down */, evt) {
+    function keyboardHandler(evt) {
+        let action = this;
+
         if(client.keybindModal.listening)
             return;
 
         if(!client.hasTurn)
             return;
-            
+
+        if(evt.repeat)
+            return;
+
         let layout = client.gamepadManager.getLayout('keyboard');
 
         let buttonName;
