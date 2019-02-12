@@ -39,6 +39,7 @@ function LetsPlayConfig() {
 
     this.reload = function() {
         self.layout = JSON.parse(localStorage.getItem('layouts') || '{}');
+        self.layout['keyboard'] = self.layout['keyboard'] || KeyboardDefaults;
     }
 
     this.save = function() {

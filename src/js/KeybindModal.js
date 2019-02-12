@@ -28,6 +28,7 @@ function KeybindModal(client) {
     }
 
     this.saveLayout = function() {
+        console.log('save');
         client.gamepadManager.setLayout(self.configuringDevice, self.unsavedLayout);
     }
 
