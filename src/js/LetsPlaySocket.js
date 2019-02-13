@@ -184,7 +184,7 @@ function LetsPlaySocket(wsURI, client) {
 
         console.log('release', evt.detail.button);
         client.appendMessage('[GamepadAPI]', 'release ' + buttonName, 'announcement');
-        self.send('button', 'up', retroID);
+        self.send('button', 'button', retroID, 0);
     });
 
     window.addEventListener('gamepadButtonPress', function(evt) {
@@ -205,7 +205,7 @@ function LetsPlaySocket(wsURI, client) {
 
         console.log('press', evt.detail.button);
         client.appendMessage('[GamepadAPI]', 'press ' + buttonName, 'announcement');
-        self.send('button', 'down', retroID);
+        self.send('button', 'button', retroID, 1);
     });
 
     window.addEventListener('gamepadAxesUpdate', function(evt) {
@@ -217,7 +217,7 @@ function LetsPlaySocket(wsURI, client) {
 
     // Keyboard based game inputs
     function keyboardHandler(evt) {
-        let action = this;
+        let value = this;
 
         if(client.keybindModal.listening)
             return;
@@ -239,14 +239,17 @@ function LetsPlaySocket(wsURI, client) {
             }
         }
 
+        if(buttonName === undefined)
+            return;
+
         let retroID = RetroJoypad[buttonName] + '';
 
-        client.appendMessage('[GamepadAPI]', 'key ' + action + ' ' + buttonName, 'announcement');
-        self.send('button', action, retroID);
+        client.appendMessage('[GamepadAPI]', 'key ' + value + ' ' + buttonName, 'announcement');
+        self.send('button', 'button', retroID, value);
     }
 
-    document.getElementById('screen').onkeydown = keyboardHandler.bind('down');
-    document.getElementById('screen').onkeyup = keyboardHandler.bind('up');
+    document.getElementById('screen').onkeydown = keyboardHandler.bind(((2 << 14) - 1) + '');
+    document.getElementById('screen').onkeyup = keyboardHandler.bind(0 + '');
 }
 
 export default LetsPlaySocket;
