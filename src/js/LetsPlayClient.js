@@ -87,8 +87,7 @@ function LetsPlayClient() {
             jElem.css('opacity', '');
         }, 200);
 
-        console.log(jElem);
-        if(jElem[0].id === 'keybind-modal') {
+        if(jElem[0] && jElem[0].id === 'keybind-modal') {
             self.keybindModal.stopListen();
             $('#keybindings-prompt').addClass('d-hidden');
             $('#keybindings-content').removeClass('d-hidden');
