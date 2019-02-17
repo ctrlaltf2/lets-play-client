@@ -45,8 +45,6 @@ function LetsPlaySocket(wsURI, client) {
      */
     this.onUsername = function(command) {
         if(self.pendingValidation) {
-            console.log(command);
-
             if(command[1] == command[2]) // No username changed, it was invalid
                 client.invalidUsername();
             else
@@ -57,7 +55,6 @@ function LetsPlaySocket(wsURI, client) {
     };
 
     this.onJoin = function(command) {
-        console.log(command);
         client.addUser(command[1]);
         client.appendMessage('', command[1] + ' has joined.', 'announcement');
     }
@@ -184,7 +181,7 @@ function LetsPlaySocket(wsURI, client) {
 
         console.log('release', evt.detail.button);
         client.appendMessage('[GamepadAPI]', 'release ' + buttonName, 'announcement');
-        self.send('button', 'button', retroID, 0);
+        self.send('button', 'button', retroID, 0 + '');
     });
 
     window.addEventListener('gamepadButtonPress', function(evt) {
@@ -205,7 +202,7 @@ function LetsPlaySocket(wsURI, client) {
 
         console.log('press', evt.detail.button);
         client.appendMessage('[GamepadAPI]', 'press ' + buttonName, 'announcement');
-        self.send('button', 'button', retroID, 1);
+        self.send('button', 'button', retroID, ((2 << 14) - 1) + '');
     });
 
     window.addEventListener('gamepadAxesUpdate', function(evt) {
