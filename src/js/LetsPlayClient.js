@@ -339,16 +339,6 @@ function LetsPlayClient() {
     $('#settings-btn').click(e => {
         $('#settings-popup').css('display', 'flex');
     });
-
-    $('#user-list-close').click(e => {
-        $('#user-list-pane').removeClass('d-flex');
-        $('#chat-pane').addClass('d-flex');
-    });
-
-    $('#list-btn').click(e => {
-        $('#chat-pane').removeClass('d-flex');
-        $('#user-list-pane').addClass('d-flex');
-    });
 }
 
 export default LetsPlayClient;
