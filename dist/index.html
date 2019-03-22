@@ -76,9 +76,19 @@
                         <a href="#" class="nav-link">Home</a>
                         <a href="https://github.com/ctrlaltf2/lets-play-server" class="nav-link">Source</a>
                         <a href="#" class="nav-link">About</a>
+						<p style="margin-left:auto;color:white;">Click on the display to take a turn!</p>
                     </nav>
                     <div id="join-view" class="d-hidden"></div>
                     <div id="emu-view" class="d-flex flex-nowrap height-100 overflow-hidden p-relative">
+					                                    <div id="user-list-pane" class="right-pane flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
+                                        <div class="d-flex flex-column height-100">
+                                            <div id="user-list-title" class="d-flex flex-row flex-grow-1">
+                                                <p>No Users Online</p>
+                                                <button id="user-list-close" style="display:none !important;"><i class="material-icons">close</i></button>
+                                            </div>
+                                            <div id="user-list"></div>
+                                        </div>
+                                    </div>
                         <main class="d-flex flex-column flex-grow-1 height-100 width-100 overflow-hidden p-relative z-1">
                             <div class="game-header flex-shrink-0 p-relative">
 
@@ -92,15 +102,6 @@
                         <div class="chat-column flex-shrink-0 height-100 p-relative">
                             <div class="d-block flew-grow-0 flex-shrink-0 height-100 p-relative">
                                 <div class="right-column flex-column flex-grow-0 flex-nowrap flex-shrink-0 height-100 overflow-hidden">
-                                    <div id="user-list-pane" class="right-pane flex-column flex-grow-1 flex-nowrap height-100 overflow-hidden p-relative">
-                                        <div class="d-flex flex-column height-100">
-                                            <div id="user-list-title" class="d-flex flex-row flex-grow-1">
-                                                <p>No Users Online</p>
-                                                <button id="user-list-close"><i class="material-icons">close</i></button>
-                                            </div>
-                                            <div id="user-list"></div>
-                                        </div>
-                                    </div>
                                     <div id="chat-pane" class="d-flex flex-column flex-grow-1 flex-nowrap height-100 width-100 p-relative z-1">
                                         <div class="chat-header f-align-center d-flex flex-shrink-0 width-100 f-justify-content-between">
                                             <div class="room-name">
@@ -126,7 +127,7 @@
                                                             <textarea id="chat-input-box" class="d-block width-100" placeholder="Send a message..." rows="2"></textarea>
                                                             <div class="d-flex flex-row width-100">
                                                                 <button id="settings-btn" title="Settings"><i class="material-icons">settings</i></button>
-                                                                <button id="list-btn" title="Users List"><i class="material-icons">list</i></button>
+                                                                <button id="list-btn" title="Users List" style="display:none !important;"><i class="material-icons">list</i></button>
                                                                 <div class="flex-grow-1"></div>
                                                                 <button id="send-btn" title="Send Message"><i class="material-icons">send</i></button>
                                                             </div>
