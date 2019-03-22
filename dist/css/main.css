@@ -433,13 +433,16 @@ button.flat.important:active{
  padding:1rem;
  padding-left:2rem
 }
-
 .turn{
  font-weight:bold
 }
 
-#user-list-pane,#chat-pane{
+#chat-pane{
  display:none
+}
+
+#user-list-pane {
+	width:350px;
 }
 
 #user-list-close{
