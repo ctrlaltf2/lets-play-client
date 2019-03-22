@@ -115,7 +115,7 @@ function LetsPlaySocket(wsURI, client) {
     rawSocket.onmessage = function(event) {
         // Binary message type
         if(event.data instanceof ArrayBuffer) {
-            client.display.update(event.data);
+            client.blobWorker.postMessage(event.data);
         } else { // Plaintext message type
             console.log('<< ' + event.data);
             let command = LetsPlayProtocol.decode(event.data);

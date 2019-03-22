@@ -7,8 +7,16 @@ import GamepadManager from './GamepadManager.js'
 function LetsPlayClient() {
     var self = this;
 
-    // Initialize the display
+    // Initialize display
     this.display = new Display();
+
+    // Create a web worker for generating the blob urls
+    this.blobWorker = new Worker('blobWorker.js');
+
+    // Blob URLs returned by the worker will be displayed
+    self.blobWorker.addEventListener('message', function(e) {
+        self.display.update(e.data);
+    }, false);
 
     // Initialize the keybind modal
     this.keybindModal = new KeybindModal(self);

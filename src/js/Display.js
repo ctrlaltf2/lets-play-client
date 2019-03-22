@@ -12,7 +12,7 @@ function Display() {
     ctx.msImageSmoothingEnabled = false;
     ctx.filter = 'saturate(130%)'; // A little bit of saturation won't hurt (experimental feature so some stuff might not see this but its not important)
 
-    this.update = function(imgdata) {
+    this.update = function(blobURL) {
         var image = new Image();
         image.addEventListener('load', function() {
             if (canvas.getContext) {
@@ -38,9 +38,7 @@ function Display() {
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
         });
-
-        var blob = new Blob([imgdata], {type: 'image/jpeg'});
-        image.src = URL.createObjectURL(blob);
+        image.src = blobURL;
     }
 
     this.drawSMPTEBars = function(canvas, ctx) {
