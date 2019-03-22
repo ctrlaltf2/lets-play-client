@@ -180,7 +180,6 @@ function LetsPlaySocket(wsURI, client) {
         let retroID = RetroJoypad[buttonName] + '';
 
         console.log('release', evt.detail.button);
-        client.appendMessage('[GamepadAPI]', 'release ' + buttonName, 'announcement');
         self.send('button', 'button', retroID, 0 + '');
     });
 
@@ -201,12 +200,11 @@ function LetsPlaySocket(wsURI, client) {
         let retroID = RetroJoypad[buttonName] + '';
 
         console.log('press', evt.detail.button);
-        client.appendMessage('[GamepadAPI]', 'press ' + buttonName, 'announcement');
         self.send('button', 'button', retroID, ((2 << 14) - 1) + '');
     });
 
     window.addEventListener('gamepadAxesUpdate', function(evt) {
-        client.appendMessage('[GamepadAPI]', 'analog ' + evt.detail.axes + ' ' + evt.detail.value.old + ' -> ' + evt.detail.value.new, 'announcement');
+        //client.appendMessage('[GamepadAPI]', 'analog ' + evt.detail.axes + ' ' + evt.detail.value.old + ' -> ' + evt.detail.value.new, 'announcement');
         // TODO: Send analog values
         // button, axes, buttonID, value (int16 value, +-32768?)
         // Check if cores translate analog button values correctly or if own algorithm has to be implememted (advanced settings checkbox thing?)
@@ -241,7 +239,6 @@ function LetsPlaySocket(wsURI, client) {
 
         let retroID = RetroJoypad[buttonName] + '';
 
-        client.appendMessage('[GamepadAPI]', 'key ' + value + ' ' + buttonName, 'announcement');
         self.send('button', 'button', retroID, value);
     }
 
