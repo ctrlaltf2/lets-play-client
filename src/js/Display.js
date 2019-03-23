@@ -37,8 +37,10 @@ function Display() {
                 ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
+            URL.revokeObjectURL(blobURL);
         });
         image.src = blobURL;
+
     }
 
     this.drawSMPTEBars = function(canvas, ctx) {
