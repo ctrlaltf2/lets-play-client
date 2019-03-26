@@ -347,6 +347,8 @@ function LetsPlayClient() {
     $('#settings-btn').click(e => {
         $('#settings-popup').css('display', 'flex');
     });
+
+    this.appendMessage('', `Welcome to Let's Play! While best played with a USB controller, there are keyboard controls. The default button map is B/A/X/Y:K/L/I/J. L and R are Q and E. D-Pad buttons are WASD. Tab is Select, and Enter is Start. Keyboard and gamepad buttons can be remapped to your liking through the settings near the bottom.`, 'announcement');
 }
 
 export default LetsPlayClient;

@@ -4,6 +4,7 @@ import RetroJoypad from './RetroJoypad.js'
 var /* enum */ BinaryMessage = {
     SCREEN: 0,
     PREVIEW: 1,
+    AUDIO: 2
 };
 
 function LetsPlaySocket(wsURI, client) {
@@ -98,6 +99,18 @@ function LetsPlaySocket(wsURI, client) {
         client.updateTurnList(command.slice(1));
     }
 
+    var audioContext = new AudioContext();
+    this.onAudio = function(data) {
+        console.log('audio');
+        var soundData = data.slice(1);
+        audioContext.decodeAudioData(soundData, function(buf) {
+            var source = context.createBufferSource();
+            source.buffer = buf;
+            source.connect(context.destination);
+            source.start(0);
+        });
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
@@ -123,6 +136,8 @@ function LetsPlaySocket(wsURI, client) {
             let firstByte = new DataView(event.data, 0, 1);
             if(firstByte.getInt8() == BinaryMessage.SCREEN)
                 client.blobWorker.postMessage(event.data);
+            else if(firstByte.getInt8() == BinaryMessage.AUDIO)
+                self.onAudio(event.data);
         } else { // Plaintext message type
             console.log('<< ' + event.data);
             let command = LetsPlayProtocol.decode(event.data);
