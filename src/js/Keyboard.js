@@ -59,12 +59,12 @@ const KeyboardDefaults = {
             deviceValue: undefined
         },
         {
-            name: 'Select',
-            deviceValue: 'Tab'
-        },
-        {
             name: 'Start',
             deviceValue: 'Enter'
+        },
+        {
+            name: 'Select',
+                deviceValue: 'Tab'
         }
 
     ],
