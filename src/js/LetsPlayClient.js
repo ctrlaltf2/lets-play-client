@@ -348,6 +348,10 @@ function LetsPlayClient() {
         $('#settings-popup').css('display', 'flex');
     });
 
+    $('#ff-btn').click(e => {
+        socket.send('ff');
+    });
+
     this.appendMessage('', `Welcome to Let's Play! While best played with a USB controller, there are keyboard controls. The default button map is BAXY to KLIJ respectively, LR to QE. D-Pad buttons are WASD. Tab is select, and enter is start. Keyboard and gamepad buttons can be remapped to your liking through the settings near the bottom.`, 'announcement');
 }
 
