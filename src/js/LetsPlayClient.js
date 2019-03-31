@@ -10,12 +10,27 @@ function LetsPlayClient() {
     // Initialize display
     this.display = new Display();
 
-    // Create a web worker for generating the blob urls
-    this.blobWorker = new Worker('blobWorker.js');
+    // Create a web worker for generating the blob urls for the screen
+    this.screenWorker = new Worker('screenWorker.js');
+
+    // Create a web worker for generating the blub urls for the previews
+    this.previewWorker = new Worker('previewWorker.js');
 
     // Blob URLs returned by the worker will be displayed
-    self.blobWorker.addEventListener('message', function(e) {
+    self.screenWorker.addEventListener('message', function(e) {
         self.display.update(e.data);
+    }, false);
+
+    // Display Blob URLs returned by the worker for the emu card previews
+    self.previewWorker.addEventListener('message', function(e) {
+        let cardIndex = e.data.id;
+        let url = e.data.url;
+
+        let image = new Image();
+        image.src = url;
+
+        // Update image
+        $('.emu-preview>div')[cardIndex].appendChild(image);
     }, false);
 
     // Initialize the keybind modal
@@ -216,6 +231,29 @@ function LetsPlayClient() {
         document.getElementById('chat-input-box').maxLength = socket.currentEmu.maxMessageSize;
 
         $('#room-info').text(socket.currentEmu.name);
+    };
+
+    this.updateJoinView = function(emuInfo) {
+        $('#join-view').empty();
+        for(let i = 0; i < emuInfo.length; i+=2) {
+            let id = emuInfo[i];
+            let title = emuInfo[i + 1];
+            $('#join-view')
+                .append(`<div class="emu-card" id="emu-` + id + `">
+                            <div class="emu-preview">
+                                <div>
+                                </div>
+                            </div>
+                            <div class="emu-title">
+                                <p>` + title + `</p>
+                            </div>
+                        </div>`);
+
+            $('#emu-' + id).click((e) => {
+                socket.currentEmu.name = id;
+                socket.send('connect', id);
+            });
+        }
     };
 
     this.addUser = function(who) {

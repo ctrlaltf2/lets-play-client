@@ -10,7 +10,7 @@ function LetsPlaySocket(wsURI, client) {
     var self = this;
 
     this.currentEmu = {
-        name: 'emu1',
+        name: undefined,
         maxMessageSize: undefined,
         minUsernameLength: undefined,
         maxUsernameLength: undefined,
@@ -71,6 +71,8 @@ function LetsPlaySocket(wsURI, client) {
 
     this.onConnect = function(command) {
         if(command[1] === '1') {
+            $('#join-view').addClass('d-hidden');
+            $('#emu-view').removeClass('d-hidden');
             self.send('list');
         }
     }
@@ -98,6 +100,10 @@ function LetsPlaySocket(wsURI, client) {
         client.updateTurnList(command.slice(1));
     }
 
+    this.onEmus = function(command) {
+        client.updateJoinView(command.slice(1));
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
@@ -105,7 +111,6 @@ function LetsPlaySocket(wsURI, client) {
     rawSocket.onopen = function() {
         console.log('Connection opened');
         client.setUsername(localStorage.getItem('username'));
-        self.send('connect', self.currentEmu.name);
     };
 
     rawSocket.onclose = function() {
@@ -120,9 +125,16 @@ function LetsPlaySocket(wsURI, client) {
     rawSocket.onmessage = function(event) {
         // Binary message type
         if(event.data instanceof ArrayBuffer) {
-            let firstByte = new DataView(event.data, 0, 1);
-            if(firstByte.getInt8() == BinaryMessage.SCREEN)
-                client.blobWorker.postMessage(event.data);
+            let firstByte = new DataView(event.data, 0, 1).getInt8();
+
+            // Unpack payload info byte
+            let messageType = (firstByte & 0b11100000) >> 5;
+            let messageInfo = firstByte & 0b00011111;
+
+            if(messageType == BinaryMessage.SCREEN) // messageInfo: unused
+                client.screenWorker.postMessage(event.data);
+            else if(messageType == BinaryMessage.PREVIEW) // messageInfo: emu index
+                client.previewWorker.postMessage({data: event.data, info: messageInfo});
         } else { // Plaintext message type
             console.log('<< ' + event.data);
             let command = LetsPlayProtocol.decode(event.data);
@@ -161,7 +173,7 @@ function LetsPlaySocket(wsURI, client) {
                     self.onTurns(command);
                     break;
                 case "emus":
-                    self.onEmuList(command);
+                    self.onEmus(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);
