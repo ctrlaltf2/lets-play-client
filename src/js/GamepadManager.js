@@ -47,16 +47,12 @@ function GamepadManager(client) {
         self.pollInput(evt.gamepad.index);
     };
 
-    window.addEventListener('gamepadconnected', this.onConnect);
-
     /**
      * Callback registered for when a gamepad is disconnected.
     */
     this.onDisconnect = function(evt) {
         cancelAnimationFrame(self.pollInputIDs[evt.gamepad.id]);
     };
-
-    window.addEventListener('gamepaddisconnected', this.onDisconnect);
 
     /**
      * Main polling loop function that fires button press events
@@ -172,5 +168,7 @@ function GamepadManager(client) {
         self.updateLayout();
     }
 
+    window.addEventListener('gamepadconnected', this.onConnect);
+    window.addEventListener('gamepaddisconnected', this.onDisconnect);
 }
 export default GamepadManager;
