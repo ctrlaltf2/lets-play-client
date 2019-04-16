@@ -45,6 +45,7 @@ function LetsPlayClient() {
     var connection = this.connection;
     var socket;
 
+
     /**
      * List of who's online.
      * @type {string[]}
@@ -391,6 +392,35 @@ function LetsPlayClient() {
     });
 
     this.appendMessage('', `Welcome to Let's Play! While best played with a USB controller, there are keyboard controls. The default button map is BAXY to KLIJ respectively, LR to QE. D-Pad buttons are WASD. Tab is select, and enter is start. Keyboard and gamepad buttons can be remapped to your liking through the settings near the bottom.`, 'announcement');
+
+    // Theme stuff
+    this.currentTheme = localStorage.getItem('theme') || 'default';
+    $('#root').addClass(this.currentTheme);
+
+    function setThemeText() {
+        if(self.currentTheme === 'default')
+            $('#settings-theme').text('Dark Theme');
+        else
+            $('#settings-theme').text('Light Theme');
+    }
+
+    setThemeText();
+
+    $('#settings-theme').click(function() {
+        $('#root').removeClass();
+
+        if(self.currentTheme === 'default') {
+            $('#root').addClass('dark');
+            self.currentTheme = 'dark';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            $('#root').addClass('default');
+            self.currentTheme = 'default';
+            localStorage.setItem('theme', 'default');
+        }
+
+        setThemeText();
+    });
 }
 
 export default LetsPlayClient;
