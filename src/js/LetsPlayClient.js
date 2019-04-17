@@ -76,10 +76,11 @@ function LetsPlayClient() {
 
     // Add a new message to the chat
     this.appendMessage = function(who, message, type="chat") {
+        const hue = (hash(who) % (360 / 15)) * 15;
         switch(type) {
             case "chat":
                 $(` <div class="chat-item">
-                        <p class="username">` + escapeHtml(who) + `</p>
+                        <p class="username" style="color: hsla(` + hue + `, 100%, 50%, 1);">` + escapeHtml(who) + `</p>
                         <p class="separator">:</p>
                         <span class="chat-text">` + escapeHtml(message) + `</span>
                     </div>`)
@@ -162,6 +163,17 @@ function LetsPlayClient() {
         }
     };
 
+    // djb2 by Dan Bernstein
+    function hash(str) {
+        var hash = 5381;
+
+        for(var i in str) {
+            hash = ((hash << 5) + hash) + str.charCodeAt(i);
+        }
+
+        return hash;
+    }
+
     this.updateOnlineUsers = function(list) {
         self.onlineUsers = list.sort();
         self.updateUserList();
@@ -193,16 +205,18 @@ function LetsPlayClient() {
     this.updateUserList = function() {
         $('#user-list').empty();
         self.turnQueue.forEach(user => {
+            const hue = (hash(user) % (360 / 15)) * 15;
             $(`<div class="user-list-item turn">
-                    <p>` + escapeHtml(user) + `</p>
+                    <p style="color: hsla(` + hue + `, 100%, 50%, 1);">` + escapeHtml(user) + `</p>
                 </div>`).appendTo('#user-list');
         });
 
         self.onlineUsers.sort();
         self.onlineUsers.forEach(user => {
+            const hue = (hash(user) % (360 / 15)) * 15;
             if(self.turnQueue.indexOf(user) === -1) {
                 $(`<div class="user-list-item">
-                        <p>` + escapeHtml(user) + `</p>
+                        <p style="color: hsla(` + hue + `, 100%, 50%, 1);">` + escapeHtml(user) + `</p>
                     </div>`).appendTo('#user-list');
             }
         });
@@ -421,6 +435,7 @@ function LetsPlayClient() {
 
         setThemeText();
     });
+
 }
 
 export default LetsPlayClient;
