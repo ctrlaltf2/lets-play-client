@@ -11,10 +11,10 @@ function LetsPlayClient() {
     this.display = new Display();
 
     // Create a web worker for generating the blob urls for the screen
-    this.screenWorker = new Worker('screenWorker.js');
+    this.screenWorker = new Worker('/screenWorker.js');
 
     // Create a web worker for generating the blub urls for the previews
-    this.previewWorker = new Worker('previewWorker.js');
+    this.previewWorker = new Worker('/previewWorker.js');
 
     // Blob URLs returned by the worker will be displayed
     self.screenWorker.addEventListener('message', function(e) {
