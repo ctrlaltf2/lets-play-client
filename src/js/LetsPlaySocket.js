@@ -111,6 +111,10 @@ function LetsPlaySocket(wsURI, client) {
     rawSocket.onopen = function() {
         console.log('Connection opened');
         client.setUsername(localStorage.getItem('username'));
+        let path = window.location.pathname;
+        if(path.startsWith("/emu/")) {
+            client.connectToEmu(path.split('/')[2]);
+        }
     };
 
     rawSocket.onclose = function() {
