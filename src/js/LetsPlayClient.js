@@ -320,7 +320,11 @@ function LetsPlayClient() {
         $('.press-a-key').click(e => {
             self.keybindModal.configuringButton = e.target.id;
         });
-    }
+    };
+
+    this.connectToEmu = function(which) {
+        socket.send('connect', which);
+    };
 
     // When outside box of modal is clicked, close it
     $(document).on("click", ".modal", e => {
