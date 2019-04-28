@@ -187,13 +187,16 @@ function LetsPlayClient() {
 
             if(list[0] === localStorage.getItem('username')) {
                 self.hasTurn = true;
+                setTimeout(function() {$('#screen').css('cursor', 'none');}, 2000);
                 $('#screen').addClass('turn');
             } else {
                 self.hasTurn = false;
+                $('#screen').css('cursor', 'auto');
                 $('#screen').removeClass('turn');
             }
         } else {
             self.hasTurn = false;
+            $('#screen').css('cursor', 'auto');
             $('#screen').removeClass('turn');
         }
 
