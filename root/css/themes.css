@@ -1,7 +1,7 @@
 /* This top portion of the file can serve as a template for future themes */
 :root {
     /* Text selection color */
-    --sel-color: #adbef7;
+    --sel-color: #fdbe34;
     /* Background color for the document. Only shows under canvas */
     --root-bg: #f9fafa;
     --root-fg: #19171c;
@@ -19,15 +19,15 @@
     /* Settings popup background color */
     --settings-bg: #fff;
     /* Settings popup text color */
-    --settings-fg: #35a6de;
+    --settings-fg: #fdbe34;
 
     /* 'Unimportant' buttons (cancel, no, etc) */
     --btn-u-bg: #efefef;
     --btn-u-bg-active: #e4e4e4;
     --btn-u-fg: #19171c;
     /* 'Important' buttons (yes, okay) */
-    --btn-i-bg: #37afeb;
-    --btn-i-bg-active: #2f9bd1;
+    --btn-i-bg: #e65100;
+    --btn-i-bg-active: #b84000;
     --btn-i-fg: #fefefe;
 
     --modal-bg: #f9fafa;
@@ -36,7 +36,7 @@
 
     --press-key-bg: #f1f1f1;
     --press-key-bg-h: #dedede;
-    --press-key-bg-a: #37afeb;
+    --press-key-bg-a: #e65100;
     --press-key-fg-a: #fefefe;
 
     --username-box-bg: #eef0f1;
