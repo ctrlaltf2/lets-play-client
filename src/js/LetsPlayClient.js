@@ -7,7 +7,7 @@ import GamepadManager from './GamepadManager.js'
 function LetsPlayClient() {
     var self = this;
 
-    // Initialize display
+    // Initialize display 
     this.display = new Display();
 
     // Create a web worker for generating the blob urls for the screen
