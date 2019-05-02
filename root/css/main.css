@@ -151,6 +151,11 @@ textarea,input {
 	z-index: 1000
 }
 
+img.nav-logo {
+    height: 5rem;
+    padding: 1rem 0;
+}
+
 .nav-logo,.nav-link {
 	text-decoration: none!important
 }
