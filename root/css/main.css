@@ -319,6 +319,11 @@ button.flat.important:active {
 	padding-top: .5rem
 }
 
+#chat-input-box:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .modal {
 	height: 100%;
 	width: 100%;

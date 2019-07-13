@@ -104,6 +104,10 @@ function LetsPlaySocket(wsURI, client) {
         client.updateJoinView(command.slice(1));
     }
 
+    this.onMute = function(command) {
+        client.mute(command.slice(1));
+    }
+
     var rawSocket = new WebSocket(wsURI);
     this.rawSocket = rawSocket;
     rawSocket.binaryType = 'arraybuffer';
@@ -178,6 +182,9 @@ function LetsPlaySocket(wsURI, client) {
                     break;
                 case "emus":
                     self.onEmus(command);
+                    break;
+                case "mute":
+                    self.onMute(command);
                     break;
                 default:
                     console.log("Unimplemented command: " + command[0]);

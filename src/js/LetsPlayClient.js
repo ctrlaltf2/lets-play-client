@@ -7,7 +7,7 @@ import GamepadManager from './GamepadManager.js'
 function LetsPlayClient() {
     var self = this;
 
-    // Initialize display 
+    // Initialize display
     this.display = new Display();
 
     // Create a web worker for generating the blob urls for the screen
@@ -162,6 +162,18 @@ function LetsPlayClient() {
             socket.send('username', newUsername);
         }
     };
+
+    this.mute = function(time) {
+        time = parseInt(time);
+        if(!isNaN(time)) {
+            self.appendMessage('', 'You have been muted for ' + time + ' seconds.', 'announcement');
+            $('#chat-input-box').prop('disabled', true);
+            setTimeout(function() {
+                self.appendMessage('', 'You are no longer muted.', 'announcement');
+                $('#chat-input-box').prop('disabled', false);
+            }, 1000 * time);
+        }
+    }
 
     // djb2 by Dan Bernstein
     function hash(str) {
