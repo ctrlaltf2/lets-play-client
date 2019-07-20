@@ -78,6 +78,7 @@ function GamepadManager(client) {
         state.axes = state.axes || new Array(gamepad.axes.length);
 
         // -----------
+        let events = [];
         for(let i = 0; i < state.buttons.length;++i) {
             if(state.buttons[i] === undefined)
                 state.buttons[i] = false;
@@ -85,25 +86,19 @@ function GamepadManager(client) {
             // If button state changed
 
             if(gamepad.buttons[i].pressed !== state.buttons[i]) {
-                if(gamepad.buttons[i].pressed) { // down
-                    let ev = new CustomEvent('gamepadButtonPress',
-                        {detail: {
-                            player: index,
-                            id:     gamepad.id,
-                            button: i,
-                            action: 'down'
-                        }});
-                    window.dispatchEvent(ev);
-                } else { // up
-                    let ev = new CustomEvent('gamepadButtonRelease',
-                        {detail: {
-                            player: index,
-                            id:     gamepad.id,
-                            button: i,
-                            action: 'down'
-                        }});
-                    window.dispatchEvent(ev);
-                }
+                events.push({
+                    player: index,
+                    id:     gamepad.id,
+                    button: {
+                        type: 'button',
+                        id: i,
+                        value: {
+                            // Shifts a 0 or 1 value over by 15. 32768 is the 'fully pressed' value for the server backend (and the defacto for most gamepad systems)
+                            old: (state.buttons[1] << 15) - (state.buttons[1] ? 1 : 0),
+                            new: (gamepad.buttons[i].pressed << 15) - (gamepad.buttons[i].pressed ? 1 : 0)
+                        }
+                    }
+                });
             }
             state.buttons[i] = gamepad.buttons[i].pressed;
         }
@@ -115,20 +110,26 @@ function GamepadManager(client) {
                 state.axes[i] = 0;
 
             if(gamepad.axes[i] !== state.axes[i]) {
-                let ev = new CustomEvent('gamepadAxesUpdate',
-                    {detail: {
-                        player: index,
-                        id:     gamepad.id,
-                        axes:   i,
-                        value:  {
-                            old: state.axes[i],
-                            new: gamepad.axes[i]
+                events.push({
+                    player: index,
+                    id:     gamepad.id,
+                    button: {
+                        type: 'axes',
+                        id: i,
+                        value: {
+                            old: Math.floor(state.axes[i] * ((1 << 15) - 1)),
+                            new: Math.floor(gamepad.axes[i] * ((1 << 15) - 1))
                         }
-                    }});
-                window.dispatchEvent(ev);
+                    }
+                });
             }
             state.axes[i] = gamepad.axes[i];
         }
+
+        events.forEach(event => {
+            let ev = new CustomEvent('gamepadEvent', { detail: event });
+            window.dispatchEvent(ev);
+        });
 
         self.pollInputIDs[gamepad.id] = requestAnimationFrame(self.pollInput.bind(self.pollInput, index));
     };
@@ -136,19 +137,17 @@ function GamepadManager(client) {
     // Button order reflects order of buttons in internal layout objects and in the keybindings modal
     this.buttonOrder = 'B A X Y Up Down Left Right L R L2 R2 L3 R3 Start Select Turn'.split(' ');
 
-    const blankLayout = function() {
-        var layout = {};
-
-        layout.buttons = new Array(self.buttonOrder.length).fill({});
-
-        for(var i in self.buttonOrder)
-            layout.buttons[i] = {
-                name: self.buttonOrder[i],
-                deviceValue: undefined
-            }
-
-        return layout;
-    }();
+    const blankLayout = {
+        button: [
+            // Index is the physical button number, value is the Retroarch button ID
+        ],
+        axes: [
+            /* List of pairs
+             * [3, 4], First item in pair is the Retroarch value if the axes is positive, and the second
+             * [1, 0], item is the value if the axes is positive
+             */
+        ]
+    };
 
     this.updateLayout = function() {
         this.controllerLayouts = client.config.layout;

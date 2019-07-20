@@ -4,6 +4,21 @@ function LetsPlayConfig() {
     var self = this;
 
 
+    /*
+     * var layoutV2 = {
+     *  'keyboard': {
+     *      'B': <RetroValue>
+     *  },
+     *  'Xbox One S Pad': {
+     *      'button': {
+     *          '0': <RetroValue>
+     *      }
+     *      'axes': {
+     *          '0+': <RetroValue>
+     *          '0-': <RetroValue>
+     *      }
+     *  }
+     * }
     /*var layoutExample =
         {
             'keyboard': {

@@ -3,6 +3,7 @@ import Display from './Display.js'
 import KeybindModal from './KeybindModal.js'
 import LetsPlayConfig from './LetsPlayConfig.js'
 import GamepadManager from './GamepadManager.js'
+import RetroJoypad from './RetroJoypad.js'
 
 function LetsPlayClient() {
     var self = this;
@@ -44,7 +45,6 @@ function LetsPlayClient() {
     this.connection = {};
     var connection = this.connection;
     var socket;
-
 
     /**
      * List of who's online.
@@ -308,29 +308,60 @@ function LetsPlayClient() {
         self.updateUserList();
     };
 
-    this.displayBindings = function(deviceID) {
+    this.displayBindings = function() {
         $('#keybindings-prompt').addClass('d-hidden');
         $('#keybindings-content').removeClass('d-hidden');
 
-        var currentLayout = self.gamepadManager.getLayout(deviceID);
+        var currentLayout = self.keybindModal.unsavedLayout;
 
-        let buttonBinds = currentLayout.buttons;
+        let buttonBinds = currentLayout.button;
 
         $('#keybinding-binds').empty();
         $('#keybinding-binds').append('<b>Binding</b>');
-        for(let i in buttonBinds) {
-            let buttonName = buttonBinds[i].name;
-            var bindText;
 
-            if(buttonBinds[i].deviceValue === undefined)
-                bindText = '(unmapped)';
-            else if(deviceID !== 'keyboard')
-                bindText = 'Button ' + buttonBinds[i].deviceValue;
-            else
-                bindText = buttonBinds[i].deviceValue;
+        let els = $('#keybinding-buttons').children();
 
-            $('#keybinding-binds').append('<div id="' + buttonName + '" class="press-a-key">' + bindText + '</div>');
-        };
+        for(let i = 1; i < els.length;++i) {
+            // Get name for retroID lookup
+            let buttonName = els[i].innerText;
+
+            // Get ID for searching current layout
+            let retroID = RetroJoypad.indexOf(buttonName);
+
+            // The text of the button; default to unmapped
+            var buttonText = '(unmapped)';
+
+            if(self.keybindModal.configuringDevice === 'keyboard') {
+                let entries = Object.entries(currentLayout.button);
+                entries.forEach(k => {
+                    // check v null?
+                    if(k[1] === retroID)
+                        buttonText = k[0];
+                });
+            } else {
+                // Search buttons first
+                currentLayout.button.forEach((e, i) => {
+                    if(e === null) return;
+
+                    if(e === retroID)
+                        buttonText = 'Button ' + i;
+                });
+
+                // Then analog
+                if(buttonText === '(unmapped)') {
+                    currentLayout.axes.forEach((p, i) => {
+                        if(p === null) return;
+
+                        if(p[0] === retroID)
+                            buttonText = 'Axes ' + i + '-';
+                        else if(p[1] === retroID)
+                            buttonText = 'Axes ' + i + '+';
+                    });
+                }
+            }
+
+            $('#keybinding-binds').append('<div id="' + buttonName + '" class="press-a-key">' + buttonText + '</div>');
+        }
 
         $('.press-a-key').click(e => {
             self.keybindModal.configuringButton = e.target.id;

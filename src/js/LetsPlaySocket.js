@@ -192,55 +192,59 @@ function LetsPlaySocket(wsURI, client) {
         }
     };
 
-    // gamepadButtonRelease -- Button released
-    // gamepadButtonPress -- Button pressed
-    // gamepadAxesUpdate -- Axes changed
-    window.addEventListener('gamepadButtonRelease', function(evt) {
-        if(client.keybindModal.listening)
-            return;
-
-        let layout = client.gamepadManager.getLayout(evt.detail.id);
-        console.log(layout, evt.detail.id);
-
-        let buttonName;
-        for(let i in layout.buttons) {
-            if(layout.buttons[i].deviceValue === evt.detail.button) {
-                buttonName = layout.buttons[i].name;
-                break;
-            }
+    function isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
         }
+        return true;
+    }
 
-        let retroID = RetroJoypad[buttonName] + '';
-
-        console.log('release', evt.detail.button);
-        self.send('button', 'button', retroID, 0 + '');
-    });
-
-    window.addEventListener('gamepadButtonPress', function(evt) {
+    window.addEventListener('gamepadEvent', function(evt) {
         if(client.keybindModal.listening)
             return;
 
         let layout = client.gamepadManager.getLayout(evt.detail.id);
 
-        let buttonName;
-        for(let i in layout.buttons) {
-            if(layout.buttons[i].deviceValue === evt.detail.button) {
-                buttonName = layout.buttons[i].name;
-                break;
+        var retroID;
+
+        if(evt.detail.button.type === 'button') {
+            retroID = layout.button[evt.detail.button.id];
+            if(retroID === null || retroID === undefined)
+                return;
+            self.send('button', 'button', retroID + '', evt.detail.button.value.new + '');
+        } else if(evt.detail.button.type === 'axes') {
+            let p = layout.axes[evt.detail.button.id];
+            if(p === null) return;
+
+            // Here, would check if p is assigned to a RetroJoypad joystick (what to do if one value is a button and one is the joystick????)
+
+            // Confusing time! There are three possible state changes for the axes events and we must act accordingly for each
+
+            let oldVal = evt.detail.button.value.old,
+                newVal = evt.detail.button.value.new;
+
+            if(Math.sign(oldVal) === Math.sign(newVal)) {
+                // Don't care about analog changes in the button world unless a sign change happens
+                return;
+            }
+
+            // Map a value's sign to its index in the axes assignment pair
+            let valToIndex = i => Math.sign(i) === 1 ? 1 : 0;
+
+            // Don't question it, it just works
+            if(oldVal != 0) { // Unpress!
+                let retroID = p[valToIndex(oldVal)];
+                if(!(retroID === null || retroID === undefined))
+                    self.send('button', 'button', retroID + '', '0');
+            }
+
+            if(newVal != 0) { // Press!
+                let retroID = p[valToIndex(newVal)];
+                if(!(retroID === null || retroID === undefined))
+                    self.send('button', 'button', retroID + '', '32767');
             }
         }
-
-        let retroID = RetroJoypad[buttonName] + '';
-
-        console.log('press', evt.detail.button);
-        self.send('button', 'button', retroID, ((2 << 14) - 1) + '');
-    });
-
-    window.addEventListener('gamepadAxesUpdate', function(evt) {
-        //client.appendMessage('[GamepadAPI]', 'analog ' + evt.detail.axes + ' ' + evt.detail.value.old + ' -> ' + evt.detail.value.new, 'announcement');
-        // TODO: Send analog values
-        // button, axes, buttonID, value (int16 value, +-32768?)
-        // Check if cores translate analog button values correctly or if own algorithm has to be implememted (advanced settings checkbox thing?)
     });
 
     // Keyboard based game inputs
@@ -258,21 +262,11 @@ function LetsPlaySocket(wsURI, client) {
 
         let layout = client.gamepadManager.getLayout('keyboard');
 
-        let buttonName;
-        let keyID = evt.key || evt.keyCode || evt.which;
-        for(let i in layout.buttons) {
-            if(layout.buttons[i].deviceValue === keyID) {
-                buttonName = layout.buttons[i].name;
-                break;
-            }
-        }
-
-        if(buttonName === undefined)
+        let retroID = layout.button[evt.key];
+        if(retroID === undefined)
             return;
 
-        let retroID = RetroJoypad[buttonName] + '';
-
-        self.send('button', 'button', retroID, value);
+        self.send('button', 'button', retroID + '', value);
     }
 
     document.getElementById('screen').onkeydown = keyboardHandler.bind(((2 << 14) - 1) + '');

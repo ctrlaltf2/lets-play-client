@@ -1,75 +1,26 @@
 import RetroJoypad from './RetroJoypad.js'
 
+// Make a shorthand for button assignment
+let b = function(b) {
+    return RetroJoypad.indexOf(b);
+};
+
 const KeyboardDefaults = {
-    buttons: [
-        {
-            name: 'B',
-            deviceValue: 'k'
-        },
-        {
-            name: 'A',
-            deviceValue: 'l'
-        },
-        {
-            name: 'X',
-            deviceValue: 'i'
-        },
-        {
-            name: 'Y',
-            deviceValue: 'j'
-        },
-        {
-            name: 'Up',
-            deviceValue: 'w'
-        },
-        {
-            name: 'Down',
-            deviceValue: 's'
-        },
-        {
-            name: 'Left',
-            deviceValue: 'a'
-        },
-        {
-            name: 'Right',
-            deviceValue: 'd'
-        },
-        {
-            name: 'L',
-            deviceValue: 'q'
-        },
-        {
-            name: 'R',
-            deviceValue: 'e'
-        },
-        {
-            name: 'L2',
-            deviceValue: '1'
-        },
-        {
-            name: 'R2',
-            deviceValue: '3'
-        },
-        {
-            name: 'L3',
-            deviceValue: undefined
-        },
-        {
-            name: 'R3',
-            deviceValue: undefined
-        },
-        {
-            name: 'Start',
-            deviceValue: 'Enter'
-        },
-        {
-            name: 'Select',
-                deviceValue: 'Tab'
-        }
-
-    ],
+    button: {
+        'z': b('B'),
+        'x': b('A'),
+        's': b('X'),
+        'a': b('Y'),
+        'ArrowUp': b('Up'),
+        'ArrowDown': b('Down'),
+        'ArrowLeft': b('Left'),
+        'ArrowRight': b('Right'),
+        'Shift': b('Select'),
+        'Enter': b('Start'),
+        'q': b('L'),
+        'w': b('R'),
+    },
     axes: [
-
     ]
 };
 
