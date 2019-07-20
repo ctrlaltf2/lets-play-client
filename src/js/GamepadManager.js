@@ -17,7 +17,7 @@ function GamepadManager(client) {
     this.controllerStates = {};
 
     /**
-     * Controller button -> RetroArch ID layouts for gamepads. Saved between sessions.
+     * Controller layouts
      * @note map, gamepad id -> gamepad layout
      * @note mirrors exactly the structure of controllerStates, just a different use
      */
@@ -38,9 +38,9 @@ function GamepadManager(client) {
      * Callback registered for when a gamepad is connected.
      */
     this.onConnect = function(evt) {
-        if(evt.gamepad.mapping === 'standard') { // Try to use standard map, if supported by controller
-            self.controllerStates[evt.gamepad.id] = self.controllerStates['standard'];
-        } else if(self.controllerStates[evt.gamepad.id] === undefined) { // Fallback on known controllerStates
+        self.updateLayout();
+        console.log(self.controllerLayouts);
+        if(self.controllerLayouts[evt.gamepad.id] === undefined) { // Fallback on known controllerStates
             // Unknown controller, tell the user that it will need mapped
             client.appendMessage('', 'Unknown controller plugged in. Please map it using the keybindings menu.', 'announcement');
         }
