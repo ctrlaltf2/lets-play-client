@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Play|Material+Icons" rel="stylesheet">
+        <link href="/css/common.css" rel="stylesheet">
+        <link href="/css/admin.css" rel="stylesheet">
+        <link href="/css/themes.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/16x16.png">
+        <title>Admin Panel</title>
+        <meta name="robots" content="noindex">
+        <meta name="msapplication-TileColor" content="#0b409c">
+        <meta name="theme-color" content="#0b409c">
+    </head>
+
+    <body>
+        <div id="root">
+            <div id="password-view" class="d-hidden">
+                <div id="password-dialogue">
+                    <h2>Admin Login</h2>
+                    <h6>All attempts are logged. Too many will result in a ban.</h6>
+                    <input id="password-input" type="password" placeholder="Enter password">
+                </div>
+            </div>
+            <div id="config-view">
+                <nav class="nav-container d-flex flex-row flex-nowrap p-relative retro-text">
+                    <a href="/admin"><img class="nav-logo" alt="Let's Play" src="/img/logo.png"/></a>
+                </nav>
+                <div id="config-content">
+                    <div id="config-sidebar">
+                        <div class="config-category"><i class="material-icons">settings</i><p>General</p></div>
+                        <div class="config-category"><i class="material-icons">gamepad</i><p>Emulator</p></div>
+                        <div class="config-category"><i class="material-icons">not_interested</i><p>Bans</p></div>
+                        <div class="config-category"><i class="material-icons">edit</i><p>Raw Config</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

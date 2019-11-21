@@ -1,0 +1,130 @@
+* {
+	box-sizing: border-box;
+	/*outline: 1px red solid;*/
+	margin: 0;
+	padding: 0;
+    outline: none
+}
+
+*:focus {
+    outline: none
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+	border: 0;
+	font: inherit;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline
+}
+
+html {
+	font-size: 10px
+}
+
+body {
+	line-height: 1.5
+}
+
+p {
+	font-size: 1.5rem;
+}
+
+#root,body,html {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	overflow: hidden
+}
+
+body {
+	/*background-image: url('../images/bg.png');*/
+	font-family: 'Play',sans-serif;
+	font-size: 12px;
+    line-height: 1.4
+}
+
+textarea,input {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	outline: 0;
+	resize: none;
+	border: 1px solid;
+	border-radius: 2px;
+	font-size: 1.2rem;
+	line-height: 1.5;
+	-ms-overflow-style: none;
+	transition: box-shadow .12s ease-in,border .12s ease-in
+}
+
+.nav-container {
+	height: 5rem;
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.75);
+	align-items: center;
+	justify-content: flex-start;
+	padding-left: .75rem;
+	z-index: 1000
+}
+
+img.nav-logo {
+    height: 5rem;
+    padding: 1rem 0;
+}
+
+.nav-logo,.nav-link {
+	text-decoration: none!important
+}
+
+.nav-logo,.logo {
+	font-size: 1.75rem!important
+}
+
+.nav-link {
+	padding-left: 1.5rem
+}
+
+#nav-info {
+	margin-left: auto;
+	margin-right: 1rem;
+	font-size: 1rem
+}
+
+.p-relative {position:relative !important}
+.d-block {display:block !important}
+.d-flex {display:flex !important}
+.d-hidden {display:none !important}
+.align-end {align-self:flex-end !important}
+.flex-nowrap {flex-wrap:nowrap !important}
+.flex-column {flex-direction:column !important}
+.flex-row {flex-direction:row !important}
+.flex-grow-0 {flex-grow:0 !important}
+.flex-grow-1 {flex-grow:1 !important}
+.flex-shrink-0 {flex-shrink:0 !important}
+.flex-shrink-1 {flex-shrink:1 !important}
+.f-justify-content-between {justify-content:space-between !important}
+.f-align-center {align-items:center !important}
+.overflow-hidden {overflow:hidden !important}
+.height-100 {height:100% !important}
+.width-100 {width:100% !important}
+.z-1 {z-index:1 !important}
+
+b.logo {font-weight:normal}
+.logo.green {color:#6acc19}
+.logo.blue {color:#51d2f3}
+.logo.red {color:#ee4847}
+.logo.yellow {color:#f6bc33}
+h1,h2 {color:#a5a2a2}
+a {color:#07a}
+.retro-text {
+	font-family: 'Press Start 2P',sans-serif;
+	/* Disable font hinting if supported. If it doesn't work (usually won't), no biggie */
+	font-smooth: never;
+	-webkit-font-smoothing: none
+}
+

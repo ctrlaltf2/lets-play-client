@@ -1,0 +1,84 @@
+#password-view {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+#password-view::-webkit-scrollbar {
+    display: none
+}
+
+#password-dialogue {
+    padding: 1rem 2rem 5rem;
+}
+
+#password-dialogue > h2 {
+    color: #000;
+    font-size: 3rem;
+}
+
+#password-dialogue > h6 {
+    color: #828282;
+    font-size: 1.5rem;
+}
+
+#password-input {
+    width: 100%;
+    font-size: 1.5rem;
+    border: 0;
+    border-bottom: 1px solid #d8ddde;
+    margin-top: 2rem;
+}
+
+#config-content {
+    height: calc(100% - 5rem);
+}
+
+.config-category {
+    padding: 1rem;
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+}
+
+.config-category > i {
+    margin-top: calc(calc(33.6px - 24px) / 2);
+    margin-right: 1rem;
+}
+
+.config-category > p {
+    font-size: 24px;
+}
+
+#config-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+}
+
+
+@media screen and (min-width: 405px) {
+    #password-dialogue {
+        min-height: 100vh;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    #password-dialogue {
+        width: 450px;
+        border: 1px solid #d8ddde;
+        min-height: 0;
+        flex-shrink: 0;
+        margin: 0 auto;
+    }
+
+    #password-view:before, #password-view:after {
+        flex-grow: 1;
+        content: '';
+        display: block;
+        height: 25px;
+    }
+}
