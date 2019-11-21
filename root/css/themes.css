@@ -187,3 +187,18 @@ button.flat.important:active {
 .username-box {
     background-color: var(--username-box-bg)
 }
+
+
+/**** Admin panel stuff ****/
+
+#vm-select-ico {
+    color: var(--nav-fg)
+}
+
+#vm-select-list {
+    background-color: var(--nav-bg)
+}
+
+.vm-select-item > a {
+    color: var(--nav-fg);
+}
