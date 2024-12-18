@@ -23,6 +23,6 @@
   "homepage": "https://github.com/ctrlaltf2/lets-play-server#lets-play",
   "devDependencies": {
     "webpack": "^4.16.1",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.12"
   }
 }
